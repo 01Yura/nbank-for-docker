@@ -1,0 +1,85 @@
+# Autentication under role ADMIN
+POST http://localhost:4111/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###
+
+# Autentication under role USER
+POST http://localhost:4111/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "Vasya",
+  "password": "Vasya_228!"
+}
+
+###
+
+# 1. Админ может создавать юзеров
+
+# Positive:
+# Admin can create new user
+POST http://localhost:4111/api/v1/admin/users
+Authorization: {{authToken_for_admin}}
+Content-Type: application/json
+
+{
+  "username": "Vasya",
+  "password": "Vasya_228!",
+  "role": "USER"
+}
+
+###
+
+# Negative:
+# Admin canNOT create user which is already exists
+POST http://localhost:4111/api/v1/admin/users
+Authorization: {{authToken_for_admin}}
+Content-Type: application/json
+
+{
+"username": "Vasya",
+"password": "Vasya_228!",
+"role": "USER"
+}
+
+###
+
+# 2. Админ может видеть список юзеров
+
+# Positive:
+# Admin can get list of all users
+GET http://localhost:4111/api/v1/admin/users
+Authorization: {{authToken_for_admin}}
+
+###
+
+# 3. Авторизованнный пользователь может создать аккаунт
+
+# Positive:
+# Authorized user can create an account
+POST http://localhost:4111/api/v1/accounts
+Authorization: {{authToken_for_user}}
+
+###
+
+# User can get list all his accounts
+GET http://localhost:4111/api/v1/customer/accounts
+Authorization: {{authToken_for_user}}
+
+###
+
+# Admin can delete user by Id
+DELETE http://localhost:4111/api/v1/admin/users/6
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+
+###
+
+
+
