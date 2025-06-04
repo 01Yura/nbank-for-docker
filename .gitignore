@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-
+.run
 .idea/*
 .idea/.gitignore
 .idea/modules.xml

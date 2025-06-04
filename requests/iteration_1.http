@@ -203,7 +203,17 @@ GET http://localhost:4111/api/v1/customer/accounts
 accept: */*
 Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgh
 
+
+
+
+###Positive: Authorized admin can delete user by id
+DELETE http://localhost:4111/api/v1/admin/users/1
+accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+
 ###
+
+
 
 
 
