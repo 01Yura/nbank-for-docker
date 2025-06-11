@@ -1,7 +1,6 @@
 package iteration1_middle;
 
 import generators.RandomData;
-import iteration1.BaseTest;
 import models.CreateUserRequestModel;
 import models.LoginUserRequestModel;
 import models.UserRole;

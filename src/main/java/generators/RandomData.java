@@ -13,7 +13,7 @@ public class RandomData {
 
 
     public static String getPassword() {
-        return RandomStringUtils.randomAlphanumeric(6) +
+        return RandomStringUtils.randomAlphabetic(6).toLowerCase() +
                 RandomStringUtils.randomAlphabetic(3).toUpperCase() +
                 RandomStringUtils.randomNumeric(3) + "!";
     }
