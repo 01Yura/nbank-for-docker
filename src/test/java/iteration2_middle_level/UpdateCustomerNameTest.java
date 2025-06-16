@@ -3,7 +3,6 @@ package iteration2_middle_level;
 import models.GetCustomerProfileResponseModel;
 import models.UpdateCustomerNameRequestModel;
 import models.UpdateCustomerNameResponseModel;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,9 +13,23 @@ import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class UpdateCustomerName extends BaseTest {
+public class UpdateCustomerNameTest extends BaseTest {
+
+    static Stream<Arguments> argsFor_userCanChangeTheirNameUsingValidName() {
+        return Stream.of(
+//                Positive: Authorized user can change their name using a valid value
+                Arguments.of("New Name"),
+                Arguments.of("NEW NAME"),
+                Arguments.of("N N"),
+                Arguments.of("n n"),
+                Arguments.of("N name"),
+                Arguments.of("New n")
+        );
+    }
+
 
     static Stream<Arguments> argsFor_userCannotChangeTheirNameUsingInvalidName() {
         return Stream.of(
@@ -32,8 +45,9 @@ public class UpdateCustomerName extends BaseTest {
     }
 
 
-    @Test
-    void userCanChangeTheirNameUsingValidName() {
+    @MethodSource("argsFor_userCanChangeTheirNameUsingValidName")
+    @ParameterizedTest
+    void userCanChangeTheirNameUsingValidName(String username) {
 //        Check that after @BeforeEach user creation their name is null
         GetCustomerProfileResponseModel responseModel =
                 new GetCustomerProfileRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
@@ -46,7 +60,7 @@ public class UpdateCustomerName extends BaseTest {
 
 //        Change customer name
         UpdateCustomerNameRequestModel requestModel = UpdateCustomerNameRequestModel.builder()
-                .name("New name")
+                .name(username)
                 .build();
 
         UpdateCustomerNameResponseModel updateCustomerNameResponseModel =
@@ -78,11 +92,11 @@ public class UpdateCustomerName extends BaseTest {
                 .build();
 
 
-                new UpdateCustomerNameRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
-                        firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec())
-                        .request(requestModel)
-                        .assertThat()
-                        .body(equalTo(errorValue));
+        new UpdateCustomerNameRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
+                firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec())
+                .request(requestModel)
+                .assertThat()
+                .body(equalTo(errorValue));
 
 //       Check again that after changing the name, the name is still null
         GetCustomerProfileResponseModel responseModel2 =
