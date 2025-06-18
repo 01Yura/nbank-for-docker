@@ -1,6 +1,7 @@
 package iteration2_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
+import models.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -156,13 +157,9 @@ public class TransferMoneyTest extends BaseTest {
                 .amount(transferAmount)
                 .build();
 
-        String actualError =
                 new TransferMoneyRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
-                        firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec())
-                        .request(model)
-                        .extract().asString();
-
-        softly.assertThat(actualError).isEqualTo(expectedError);
+                        firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec(expectedError))
+                        .request(model);
 
         //        Take current info about the account of the first user (who is sent money)
         List<GetCustomerAccountsResponseModel> accounts1 =

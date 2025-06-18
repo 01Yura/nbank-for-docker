@@ -92,15 +92,12 @@ public class DepositMoneyTest extends BaseTest {
                 .balance(depositBalance)
                 .build();
 
-        String actualError = new DepositMoneyRequestSender(
+        new DepositMoneyRequestSender(
                 RequestSpecs.userSpec(
                         firstUser.getUsername(),
                         firstUser.getPassword()),
-                ResponseSpecs.responseReturns400WithoutKeyValueSpec())
-                .request(userDepositMoneyRequestModel)
-                .extract().asString();
-
-        softly.assertThat(actualError).isEqualTo(expectedError);
+                ResponseSpecs.responseReturns400WithoutKeyValueSpec(expectedError))
+                .request(userDepositMoneyRequestModel);
 
         //        Check whether the balance is equal as should
         List<GetCustomerAccountsResponseModel> accounts = new GetCustomerAccountsRequestSender(

@@ -93,10 +93,8 @@ public class UpdateCustomerNameTest extends BaseTest {
 
 
         new UpdateCustomerNameRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
-                firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec())
-                .request(requestModel)
-                .assertThat()
-                .body(equalTo(errorValue));
+                firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec(errorValue))
+                .request(requestModel);
 
 //       Check again that after changing the name, the name is still null
         GetCustomerProfileResponseModel responseModel2 =
