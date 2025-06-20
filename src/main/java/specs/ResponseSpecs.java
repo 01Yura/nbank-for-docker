@@ -4,6 +4,8 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
 import org.hamcrest.Matchers;
 
+import static org.hamcrest.Matchers.equalTo;
+
 public class ResponseSpecs {
     private ResponseSpecs() {
     }
@@ -32,6 +34,14 @@ public class ResponseSpecs {
         return defaultResponseSpecBuilder()
                 .expectStatusCode(400)
                 .expectBody(errorKey, Matchers.hasItem(errorValue))
+                .build();
+    }
+
+
+    public static ResponseSpecification responseReturns400WithoutKeyValueSpec(String expectedError) {
+        return defaultResponseSpecBuilder()
+                .expectStatusCode(400)
+                .expectBody(equalTo(expectedError))
                 .build();
     }
 }
