@@ -1,16 +1,16 @@
 package iteration2_middle_level;
 
-import generators.RandomData;
-import models.CreateAccountResponseModel;
-import models.CreateUserRequestModel;
-import models.UserRole;
+import middle.generators.RandomData;
+import middle.models.CreateAccountResponseModel;
+import middle.models.CreateUserRequestModel;
+import middle.models.UserRole;
+import middle.requests.CreateAccountRequestSender;
+import middle.requests.CreateUserRequestSender;
+import middle.specs.RequestSpecs;
+import middle.specs.ResponseSpecs;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import requests.CreateAccountRequestSender;
-import requests.CreateUserRequestSender;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 public class BaseTest {
     protected SoftAssertions softly;

@@ -1,15 +1,15 @@
 package iteration2_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
-import models.*;
+import middle.models.*;
+import middle.requests.DepositMoneyRequestSender;
+import middle.requests.GetCustomerAccountsRequestSender;
+import middle.requests.TransferMoneyRequestSender;
+import middle.specs.RequestSpecs;
+import middle.specs.ResponseSpecs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.DepositMoneyRequestSender;
-import requests.GetCustomerAccountsRequestSender;
-import requests.TransferMoneyRequestSender;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -157,9 +157,10 @@ public class TransferMoneyTest extends BaseTest {
                 .amount(transferAmount)
                 .build();
 
-                new TransferMoneyRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
+        new TransferMoneyRequestSender(RequestSpecs.userSpec(firstUser.getUsername(),
                         firstUser.getPassword()), ResponseSpecs.responseReturns400WithoutKeyValueSpec(expectedError))
                         .request(model);
+
 
         //        Take current info about the account of the first user (who is sent money)
         List<GetCustomerAccountsResponseModel> accounts1 =

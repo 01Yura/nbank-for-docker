@@ -1,17 +1,17 @@
 package iteration2_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
-import models.GetCustomerAccountsResponseModel;
-import models.TransactionType;
-import models.UserDepositMoneyRequestModel;
-import models.UserDepositMoneyResponseModel;
+import middle.models.GetCustomerAccountsResponseModel;
+import middle.models.TransactionType;
+import middle.models.UserDepositMoneyRequestModel;
+import middle.models.UserDepositMoneyResponseModel;
+import middle.requests.DepositMoneyRequestSender;
+import middle.requests.GetCustomerAccountsRequestSender;
+import middle.specs.RequestSpecs;
+import middle.specs.ResponseSpecs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.DepositMoneyRequestSender;
-import requests.GetCustomerAccountsRequestSender;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -98,6 +98,7 @@ public class DepositMoneyTest extends BaseTest {
                         firstUser.getPassword()),
                 ResponseSpecs.responseReturns400WithoutKeyValueSpec(expectedError))
                 .request(userDepositMoneyRequestModel);
+
 
         //        Check whether the balance is equal as should
         List<GetCustomerAccountsResponseModel> accounts = new GetCustomerAccountsRequestSender(

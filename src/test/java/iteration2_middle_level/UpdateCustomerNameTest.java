@@ -1,20 +1,18 @@
 package iteration2_middle_level;
 
-import models.GetCustomerProfileResponseModel;
-import models.UpdateCustomerNameRequestModel;
-import models.UpdateCustomerNameResponseModel;
+import middle.models.GetCustomerProfileResponseModel;
+import middle.models.UpdateCustomerNameRequestModel;
+import middle.models.UpdateCustomerNameResponseModel;
+import middle.requests.GetCustomerProfileRequestSender;
+import middle.requests.UpdateCustomerNameRequestSender;
+import middle.specs.RequestSpecs;
+import middle.specs.ResponseSpecs;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import requests.GetCustomerProfileRequestSender;
-import requests.UpdateCustomerNameRequestSender;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 public class UpdateCustomerNameTest extends BaseTest {
 
@@ -69,7 +67,7 @@ public class UpdateCustomerNameTest extends BaseTest {
                         .request(requestModel)
                         .extract().as(UpdateCustomerNameResponseModel.class);
 
-        assertThat(requestModel.getName()).isEqualTo(updateCustomerNameResponseModel.getCustomer().getName());
+        AssertionsForClassTypes.assertThat(requestModel.getName()).isEqualTo(updateCustomerNameResponseModel.getCustomer().getName());
     }
 
 
