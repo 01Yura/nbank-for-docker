@@ -1,4 +1,4 @@
-package iteration1;
+package iteration1_junior;
 
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -10,7 +10,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
