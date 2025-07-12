@@ -1,0 +1,39 @@
+package ui.iteration2_junior_level;
+
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
+
+import java.util.Map;
+
+public class SetupTest {
+//    Использую BeforeEach и AfterEach чтобы после каждого теста закрывать сессию и значит на каждый тест открывалась
+//    новая сессия (открывается новый контейнер и соответственно новый браузер) для того, чтобы каждый тест имел своё
+//    уникальное имя
+    @BeforeEach
+    void setupSelenoid(TestInfo testInfo) {
+//        Configuration.remote = "http://192.168.0.127:4444/wd/hub";
+        Configuration.baseUrl = "http://192.168.0.22:3000";
+        Configuration.browser = "chrome";
+        Configuration.browserSize = "1920x1080";
+
+        String videoName = testInfo.getTestClass().get().getSimpleName()
+                + "_" + testInfo.getDisplayName().replace("()", "")
+                + ".mp4";
+
+
+        Configuration.browserCapabilities.setCapability("selenoid:options",
+                Map.of("enableVNC", true,
+                        "enableLog", true,
+                        "enableVideo", true,
+                        "videoName", videoName)
+        );
+    }
+
+    @AfterEach
+    void tearDown() {
+        WebDriverRunner.closeWindow();
+    }
+}
