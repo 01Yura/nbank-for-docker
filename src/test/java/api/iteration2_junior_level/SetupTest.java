@@ -83,8 +83,9 @@ public class SetupTest {
 //        Delete user
         given()
                 .header("Authorization", "Basic YWRtaW46YWRtaW4=")
+                .pathParam("userId", userId)
                 .when()
-                .delete(String.format("http://localhost:4111/api/v1/admin/users/%d", userId))
+                .delete("http://localhost:4111/api/v1/admin/users/{userId}")
                 .then()
                 .assertThat()
                 .statusCode(200)
