@@ -1,4 +1,4 @@
-package iteration1_senior_level;
+package api.iteration1_senior_level;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

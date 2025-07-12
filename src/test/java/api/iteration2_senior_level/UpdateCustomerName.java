@@ -1,4 +1,4 @@
-package iteration2_senior_level;
+package api.iteration2_senior_level;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

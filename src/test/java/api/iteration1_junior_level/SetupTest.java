@@ -1,4 +1,4 @@
-package iteration1_junior_level;
+package api.iteration1_junior_level;
 
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;

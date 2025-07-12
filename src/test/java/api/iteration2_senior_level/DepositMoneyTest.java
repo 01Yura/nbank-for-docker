@@ -1,4 +1,4 @@
-package iteration2_senior_level;
+package api.iteration2_senior_level;
 
 import io.restassured.common.mapper.TypeRef;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -97,6 +97,13 @@ public class DepositMoneyTest extends BaseTest {
                 .id(createAccountResponseModel.getId())
                 .balance(depositBalance)
                 .build();
+
+        new CrudRequester(RequestSpecs.userSpec(
+                UserSteps.getCreateUserRequestModel().getUsername(),
+                UserSteps.getCreateUserRequestModel().getPassword()),
+                ResponseSpecs.responseReturns400WithoutKeyValueSpec(expectedError),
+                Endpoint.ACCOUNTS_DEPOSIT)
+                .post(userDepositMoneyRequestModel);
 
         //        Check whether the balance is equal as should
         List<GetCustomerAccountsResponseModel> accounts = new CrudRequester(

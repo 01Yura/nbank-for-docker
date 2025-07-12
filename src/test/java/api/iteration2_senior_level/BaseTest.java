@@ -1,4 +1,4 @@
-package iteration2_senior_level;
+package api.iteration2_senior_level;
 
 import io.restassured.common.mapper.TypeRef;
 import org.assertj.core.api.SoftAssertions;

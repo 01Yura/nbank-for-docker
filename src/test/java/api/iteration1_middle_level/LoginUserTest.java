@@ -1,4 +1,4 @@
-package iteration1_middle_level;
+package api.iteration1_middle_level;
 
 import middle.generators.RandomData;
 import middle.models.CreateUserRequestModel;

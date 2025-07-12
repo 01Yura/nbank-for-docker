@@ -1,4 +1,4 @@
-package iteration2_middle_level;
+package api.iteration2_middle_level;
 
 import middle.generators.RandomData;
 import middle.models.CreateAccountResponseModel;

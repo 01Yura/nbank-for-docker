@@ -1,4 +1,4 @@
-package iteration1_middle_level;
+package api.iteration1_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
 import middle.generators.RandomData;

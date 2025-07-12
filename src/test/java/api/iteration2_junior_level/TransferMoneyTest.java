@@ -1,4 +1,4 @@
-package iteration2_junior_level;
+package api.iteration2_junior_level;
 
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;

@@ -1,4 +1,4 @@
-package iteration1_senior_level;
+package api.iteration1_middle_level;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;

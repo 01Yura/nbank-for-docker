@@ -1,21 +1,21 @@
-package iteration1_senior_level;
+package api.iteration1_middle_level;
 
+import middle.generators.RandomData;
+import middle.models.CreateUserRequestModel;
+import middle.models.CreateUserResponseModel;
+import middle.models.UserRole;
+import middle.requests.CreateUserRequestSender;
+import middle.specs.RequestSpecs;
+import middle.specs.ResponseSpecs;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import senior.generators.RandomModelGenerator;
-import senior.models.CreateUserRequestModel;
-import senior.models.CreateUserResponseModel;
-import senior.models.comparison.ModelAssertions;
-import senior.requests.skeleton.requesters.CrudRequester;
-import senior.requests.skeleton.requesters.Endpoint;
-import senior.requests.skeleton.requesters.ValidatedCrudRequester;
-import senior.requests.steps.AdminSteps;
-import senior.specs.RequestSpecs;
-import senior.specs.ResponseSpecs;
 
 import java.util.stream.Stream;
+
+import static io.restassured.RestAssured.given;
 
 public class CreateUserTest extends BaseTest {
 
@@ -32,7 +32,7 @@ public class CreateUserTest extends BaseTest {
                 Arguments.of("TestUser5#", "TestUser5!", "USER", "username", "Username must contain only letters, digits, dashes, underscores, and dots"),
 
 //             Role field validation:
-//             Negative: Authorized admin cannot create a new user with a role is not from the list
+//             Negative: Authorized admin cannot create new user with a role is not from the list
                 Arguments.of("TestUser6", "TestUser16", "SUPERADMIN", "role", "Role must be either 'ADMIN' or 'USER'"),
 
 //             Password field validation:
@@ -57,31 +57,49 @@ public class CreateUserTest extends BaseTest {
 
     @Test
     void adminCanCreateUserWithValidCredentials() {
-        CreateUserRequestModel createUserRequestModel = RandomModelGenerator.generateRandomModel(CreateUserRequestModel.class);
+        CreateUserRequestModel createUserRequestModel = CreateUserRequestModel.builder()
+                .username(RandomData.getUsername())
+                .password(RandomData.getPassword())
+                .role(UserRole.USER.toString())
+                .build();
 
-        CreateUserResponseModel createUserResponseModel = new ValidatedCrudRequester<CreateUserResponseModel>(RequestSpecs.adminSpec(), ResponseSpecs.responseReturns201Spec(), Endpoint.ADMIN_USERS)
-                .post(createUserRequestModel);
+        CreateUserResponseModel responseBody = new CreateUserRequestSender(RequestSpecs.adminSpec(), ResponseSpecs.responseReturns201Spec())
+                .request(createUserRequestModel)
+                .extract().as(CreateUserResponseModel.class);
 
-        ModelAssertions.assertThatModels(createUserRequestModel, createUserResponseModel).match();
-
-//        softly.assertThat(createUserResponseModel.getUsername()).isEqualTo(createUserRequestModel.getUsername());
-//        softly.assertThat(createUserResponseModel.getPassword()).isNotEqualTo(createUserRequestModel.getPassword());
-//        softly.assertThat(createUserResponseModel.getRole()).isEqualTo(createUserRequestModel.getRole());
+        softly.assertThat(responseBody.getUsername()).isEqualTo(createUserRequestModel.getUsername());
+        softly.assertThat(responseBody.getPassword()).isNotEqualTo(createUserRequestModel.getPassword());
+        softly.assertThat(responseBody.getRole()).isEqualTo(createUserRequestModel.getRole());
     }
 
 
     @Test
     void adminCannotCreateUserWhoIsAlreadyExist() {
 //        Create user
-        CreateUserRequestModel createUserRequestModel = AdminSteps.createUser();
+        String username = RandomData.getUsername();
+        String password = RandomData.getPassword();
+
+        CreateUserRequestModel createUserRequestModel = CreateUserRequestModel.builder()
+                .username(username)
+                .password(password)
+                .role(UserRole.USER.toString())
+                .build();
+
+        given()
+                .spec(RequestSpecs.adminSpec())
+                .body(createUserRequestModel)
+                .when()
+                .post("api/v1/admin/users");
 
 //        Create the same user
-        String expextedError = "Error: Username '" + createUserRequestModel.getUsername() + "' already exists.";
-
-        new CrudRequester(RequestSpecs.adminSpec(),
-                ResponseSpecs.responseReturns400WithoutKeyValueSpec(expextedError),
-                Endpoint.ADMIN_USERS)
-                .post(createUserRequestModel);
+        given()
+                .spec(RequestSpecs.adminSpec())
+                .body(createUserRequestModel)
+                .when()
+                .post("api/v1/admin/users")
+                .then()
+                .statusCode(400)
+                .body(Matchers.containsString(String.format("Error: Username '%s' already exists.", username)));
     }
 
 
@@ -96,9 +114,7 @@ public class CreateUserTest extends BaseTest {
                 .role(role)
                 .build();
 
-        new CrudRequester(RequestSpecs.adminSpec(),
-                ResponseSpecs.responseReturns400Spec(errorKey, errorValue),
-                Endpoint.ADMIN_USERS)
-                .post(createUserRequestModel);
+        new CreateUserRequestSender(RequestSpecs.adminSpec(), ResponseSpecs.responseReturns400Spec(errorKey, errorValue))
+                .request(createUserRequestModel);
     }
 }

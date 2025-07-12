@@ -1,4 +1,4 @@
-package iteration2_middle_level;
+package api.iteration2_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
 import middle.models.*;
