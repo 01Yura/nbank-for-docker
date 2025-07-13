@@ -8,6 +8,19 @@ import senior.requests.skeleton.interfaces.CrudEndpointInterface;
 
 import static io.restassured.RestAssured.given;
 
+/*
+CrudRequester
+Это низкоуровневая обёртка над RestAssured, которая:
+- формирует GET, PUT, POST, DELETE запросы;
+- возвращает ValidatableResponse (сырое тело ответа, которое ты можешь проверить вручную);
+ - сам не знает, какие модели используются — он просто отправляет данные и возвращает ответ.
+
+Используется, когда:
+- тебе нужно вручную валидировать тело ответа, статус-коды, заголовки и т. д.;
+- ты хочешь сделать гибкую проверку (например, сравнить значения вручную или через assertThat);
+- нет необходимости сразу маппить ответ в модель.
+*/
+
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface {
     public CrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, Endpoint endpoint) {
         super(requestSpecification, responseSpecification, endpoint);
