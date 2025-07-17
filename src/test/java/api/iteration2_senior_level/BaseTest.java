@@ -37,6 +37,13 @@ public class BaseTest {
                     .delete(user.getId());
         }
 
+        users = new CrudRequester(RequestSpecs.adminSpec(),
+                ResponseSpecs.responseReturns200Spec(),
+                Endpoint.ADMIN_USERS)
+                .get()
+                .extract().as(new TypeRef<List<CreateUserResponseModel>>() {
+                });
+
         if (users.isEmpty()) {
             System.out.println("All users after this test have been deleted successfully");
             System.out.println("Altogether " + amountOfAllUsers + " users have been deleted during this test run");
