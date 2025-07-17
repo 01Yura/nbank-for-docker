@@ -2,6 +2,7 @@ package ui.iteration1_middle_level;
 
 import api.senior.models.CreateAccountResponseModel;
 import api.senior.models.CreateUserRequestModel;
+import api.senior.models.GetCustomerAccountsResponseModel;
 import api.senior.requests.steps.AdminSteps;
 import api.senior.requests.steps.UserSteps;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,10 @@ public class CreateAccountTest extends BaseUiTest {
 
 //        4. User creates account
         new UserDashboard().open().createNewAccount();
-        List<CreateAccountResponseModel> allUsersAccounts = new UserSteps(user.getUsername(), user.getPassword())
+        List<GetCustomerAccountsResponseModel> allUsersAccounts = new UserSteps(user.getUsername(), user.getPassword())
                 .getAllAccounts();
 
-        CreateAccountResponseModel createdAccount = allUsersAccounts.getFirst();
+        GetCustomerAccountsResponseModel createdAccount = allUsersAccounts.getFirst();
 
         new UserDashboard().checkAlertMessageAndAccept(BankAlert.NEW_ACCOUNT_CREATED.getMessage() + createdAccount.getAccountNumber());
 

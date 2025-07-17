@@ -68,11 +68,11 @@ public class UserSteps {
         return userDepositMoneyResponseModel;
     }
 
-    public List<CreateAccountResponseModel> getAllAccounts() {
-        return new ValidatedCrudRequester<CreateAccountResponseModel>(
+    public List<GetCustomerAccountsResponseModel> getAllAccounts() {
+        return new ValidatedCrudRequester<GetCustomerAccountsResponseModel>(
                 RequestSpecs.userSpec(this.username, this.password),
                 ResponseSpecs.responseReturns200Spec(),
                 Endpoint.CUSTOMER_ACCOUNTS)
-                .getAll(CreateAccountResponseModel[].class);
+                .getAll(GetCustomerAccountsResponseModel[].class);
     }
 }
