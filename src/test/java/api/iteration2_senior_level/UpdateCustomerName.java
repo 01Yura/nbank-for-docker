@@ -3,16 +3,16 @@ package api.iteration2_senior_level;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import senior.models.CreateUserRequestModel;
-import senior.models.GetCustomerProfileResponseModel;
-import senior.models.UpdateCustomerNameRequestModel;
-import senior.models.UpdateCustomerNameResponseModel;
-import senior.requests.skeleton.requesters.CrudRequester;
-import senior.requests.skeleton.requesters.Endpoint;
-import senior.requests.skeleton.requesters.ValidatedCrudRequester;
-import senior.requests.steps.AdminSteps;
-import senior.specs.RequestSpecs;
-import senior.specs.ResponseSpecs;
+import api.senior.models.CreateUserRequestModel;
+import api.senior.models.GetCustomerProfileResponseModel;
+import api.senior.models.UpdateCustomerNameRequestModel;
+import api.senior.models.UpdateCustomerNameResponseModel;
+import api.senior.requests.skeleton.requesters.CrudRequester;
+import api.senior.requests.skeleton.requesters.Endpoint;
+import api.senior.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.senior.requests.steps.AdminSteps;
+import api.senior.specs.RequestSpecs;
+import api.senior.specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 

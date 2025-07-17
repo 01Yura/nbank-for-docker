@@ -1,13 +1,13 @@
 package api.iteration2_middle_level;
 
-import middle.generators.RandomData;
-import middle.models.CreateAccountResponseModel;
-import middle.models.CreateUserRequestModel;
-import middle.models.UserRole;
-import middle.requests.CreateAccountRequestSender;
-import middle.requests.CreateUserRequestSender;
-import middle.specs.RequestSpecs;
-import middle.specs.ResponseSpecs;
+import api.middle.generators.RandomData;
+import api.middle.models.CreateAccountResponseModel;
+import api.middle.models.CreateUserRequestModel;
+import api.middle.models.UserRole;
+import api.middle.requests.CreateAccountRequestSender;
+import api.middle.requests.CreateUserRequestSender;
+import api.middle.specs.RequestSpecs;
+import api.middle.specs.ResponseSpecs;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

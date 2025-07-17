@@ -1,15 +1,15 @@
 package api.iteration1_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
-import middle.generators.RandomData;
-import middle.models.CreateAccountResponseModel;
-import middle.models.CreateUserRequestModel;
-import middle.models.GetCustomerAccountsResponseModel;
-import middle.models.UserRole;
-import middle.requests.CreateAccountRequestSender;
-import middle.requests.CreateUserRequestSender;
-import middle.specs.RequestSpecs;
-import middle.specs.ResponseSpecs;
+import api.middle.generators.RandomData;
+import api.middle.models.CreateAccountResponseModel;
+import api.middle.models.CreateUserRequestModel;
+import api.middle.models.GetCustomerAccountsResponseModel;
+import api.middle.models.UserRole;
+import api.middle.requests.CreateAccountRequestSender;
+import api.middle.requests.CreateUserRequestSender;
+import api.middle.specs.RequestSpecs;
+import api.middle.specs.ResponseSpecs;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

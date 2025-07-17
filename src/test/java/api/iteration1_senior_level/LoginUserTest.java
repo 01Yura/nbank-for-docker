@@ -2,13 +2,13 @@ package api.iteration1_senior_level;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import senior.models.CreateUserRequestModel;
-import senior.models.LoginUserRequestModel;
-import senior.requests.skeleton.requesters.CrudRequester;
-import senior.requests.skeleton.requesters.Endpoint;
-import senior.requests.steps.AdminSteps;
-import senior.specs.RequestSpecs;
-import senior.specs.ResponseSpecs;
+import api.senior.models.CreateUserRequestModel;
+import api.senior.models.LoginUserRequestModel;
+import api.senior.requests.skeleton.requesters.CrudRequester;
+import api.senior.requests.skeleton.requesters.Endpoint;
+import api.senior.requests.steps.AdminSteps;
+import api.senior.specs.RequestSpecs;
+import api.senior.specs.ResponseSpecs;
 
 public class LoginUserTest extends BaseTest {
 

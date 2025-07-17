@@ -1,14 +1,14 @@
 package api.iteration2_middle_level;
 
 import io.restassured.common.mapper.TypeRef;
-import middle.models.GetCustomerAccountsResponseModel;
-import middle.models.TransactionType;
-import middle.models.UserDepositMoneyRequestModel;
-import middle.models.UserDepositMoneyResponseModel;
-import middle.requests.DepositMoneyRequestSender;
-import middle.requests.GetCustomerAccountsRequestSender;
-import middle.specs.RequestSpecs;
-import middle.specs.ResponseSpecs;
+import api.middle.models.GetCustomerAccountsResponseModel;
+import api.middle.models.TransactionType;
+import api.middle.models.UserDepositMoneyRequestModel;
+import api.middle.models.UserDepositMoneyResponseModel;
+import api.middle.requests.DepositMoneyRequestSender;
+import api.middle.requests.GetCustomerAccountsRequestSender;
+import api.middle.specs.RequestSpecs;
+import api.middle.specs.ResponseSpecs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

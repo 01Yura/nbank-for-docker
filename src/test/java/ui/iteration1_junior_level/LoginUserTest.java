@@ -4,8 +4,8 @@ import com.codeborne.selenide.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import senior.models.CreateUserRequestModel;
-import senior.requests.steps.AdminSteps;
+import api.senior.models.CreateUserRequestModel;
+import api.senior.requests.steps.AdminSteps;
 
 import java.util.Map;
 

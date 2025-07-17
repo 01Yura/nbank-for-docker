@@ -5,11 +5,11 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import senior.models.CreateUserResponseModel;
-import senior.requests.skeleton.requesters.CrudRequester;
-import senior.requests.skeleton.requesters.Endpoint;
-import senior.specs.RequestSpecs;
-import senior.specs.ResponseSpecs;
+import api.senior.models.CreateUserResponseModel;
+import api.senior.requests.skeleton.requesters.CrudRequester;
+import api.senior.requests.skeleton.requesters.Endpoint;
+import api.senior.specs.RequestSpecs;
+import api.senior.specs.ResponseSpecs;
 
 import java.util.List;
 

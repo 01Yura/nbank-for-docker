@@ -1,16 +1,16 @@
 package api.iteration2_senior_level;
 
+import api.senior.models.*;
 import io.restassured.common.mapper.TypeRef;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import senior.models.*;
-import senior.requests.skeleton.requesters.CrudRequester;
-import senior.requests.skeleton.requesters.Endpoint;
-import senior.requests.skeleton.requesters.ValidatedCrudRequester;
-import senior.requests.steps.UserSteps;
-import senior.specs.RequestSpecs;
-import senior.specs.ResponseSpecs;
+import api.senior.requests.skeleton.requesters.CrudRequester;
+import api.senior.requests.skeleton.requesters.Endpoint;
+import api.senior.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.senior.requests.steps.UserSteps;
+import api.senior.specs.RequestSpecs;
+import api.senior.specs.ResponseSpecs;
 
 import java.util.ArrayList;
 import java.util.List;

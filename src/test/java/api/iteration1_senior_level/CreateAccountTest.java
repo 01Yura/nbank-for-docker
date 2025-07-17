@@ -2,15 +2,15 @@ package api.iteration1_senior_level;
 
 import io.restassured.common.mapper.TypeRef;
 import org.junit.jupiter.api.Test;
-import senior.generators.RandomModelGenerator;
-import senior.models.CreateAccountResponseModel;
-import senior.models.CreateUserRequestModel;
-import senior.models.GetCustomerAccountsResponseModel;
-import senior.requests.skeleton.requesters.CrudRequester;
-import senior.requests.skeleton.requesters.Endpoint;
-import senior.requests.skeleton.requesters.ValidatedCrudRequester;
-import senior.specs.RequestSpecs;
-import senior.specs.ResponseSpecs;
+import api.senior.generators.RandomModelGenerator;
+import api.senior.models.CreateAccountResponseModel;
+import api.senior.models.CreateUserRequestModel;
+import api.senior.models.GetCustomerAccountsResponseModel;
+import api.senior.requests.skeleton.requesters.CrudRequester;
+import api.senior.requests.skeleton.requesters.Endpoint;
+import api.senior.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.senior.specs.RequestSpecs;
+import api.senior.specs.ResponseSpecs;
 
 import java.util.List;
 

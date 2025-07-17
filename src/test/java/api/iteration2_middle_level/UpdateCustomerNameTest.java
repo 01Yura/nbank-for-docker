@@ -1,12 +1,12 @@
 package api.iteration2_middle_level;
 
-import middle.models.GetCustomerProfileResponseModel;
-import middle.models.UpdateCustomerNameRequestModel;
-import middle.models.UpdateCustomerNameResponseModel;
-import middle.requests.GetCustomerProfileRequestSender;
-import middle.requests.UpdateCustomerNameRequestSender;
-import middle.specs.RequestSpecs;
-import middle.specs.ResponseSpecs;
+import api.middle.models.GetCustomerProfileResponseModel;
+import api.middle.models.UpdateCustomerNameRequestModel;
+import api.middle.models.UpdateCustomerNameResponseModel;
+import api.middle.requests.GetCustomerProfileRequestSender;
+import api.middle.requests.UpdateCustomerNameRequestSender;
+import api.middle.specs.RequestSpecs;
+import api.middle.specs.ResponseSpecs;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,13 +1,13 @@
 package api.iteration1_middle_level;
 
-import middle.generators.RandomData;
-import middle.models.CreateUserRequestModel;
-import middle.models.LoginUserRequestModel;
-import middle.models.UserRole;
-import middle.requests.CreateUserRequestSender;
-import middle.requests.LoginUserRequestSender;
-import middle.specs.RequestSpecs;
-import middle.specs.ResponseSpecs;
+import api.middle.generators.RandomData;
+import api.middle.models.CreateUserRequestModel;
+import api.middle.models.LoginUserRequestModel;
+import api.middle.models.UserRole;
+import api.middle.requests.CreateUserRequestSender;
+import api.middle.requests.LoginUserRequestSender;
+import api.middle.specs.RequestSpecs;
+import api.middle.specs.ResponseSpecs;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 

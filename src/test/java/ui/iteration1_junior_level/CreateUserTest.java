@@ -5,11 +5,11 @@ import io.restassured.common.mapper.TypeRef;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
-import senior.generators.RandomModelGenerator;
-import senior.models.CreateUserRequestModel;
-import senior.models.CreateUserResponseModel;
-import senior.models.comparison.ModelAssertions;
-import senior.specs.RequestSpecs;
+import api.senior.generators.RandomModelGenerator;
+import api.senior.models.CreateUserRequestModel;
+import api.senior.models.CreateUserResponseModel;
+import api.senior.models.comparison.ModelAssertions;
+import api.senior.specs.RequestSpecs;
 
 import java.util.List;
 import java.util.Map;
