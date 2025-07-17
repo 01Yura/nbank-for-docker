@@ -52,7 +52,6 @@ public class UpdateCustomerNameTest extends SetupTest {
 
 //        change the name
         $(Selectors.byClassName("user-info")).click();
-        Thread.sleep(100); // эта задержка на 100 msec лечит тест от флаки, без нее постоянно происходят флаки
 
         $(Selectors.byText("✏\uFE0F Edit Profile")).shouldBe(Condition.visible);
         String newUserName = "New Name";
