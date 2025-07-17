@@ -50,7 +50,7 @@ public class TransferMoneyTest extends BaseTest {
         List<UserDepositMoneyResponseModel> deposits = new ArrayList<>();
 
 //        Create a first user + account + deposit money until the balance is enough for a successful transfer
-        UserSteps.depositMoney(depositPerCycle, depositThreshold);
+        UserSteps.depositMoneyStatic(depositPerCycle, depositThreshold);
 
         users.add(UserSteps.getCreateUserRequestModel());
         accounts.add(UserSteps.getCreateAccountResponseModel());
@@ -137,7 +137,7 @@ public class TransferMoneyTest extends BaseTest {
         List<UserDepositMoneyResponseModel> deposits = new ArrayList<>();
 
 //        Create a first user + account + deposit money until the balance is enough for a successful transfer
-        UserSteps.depositMoney(depositPerCycle, depositThreshold);
+        UserSteps.depositMoneyStatic(depositPerCycle, depositThreshold);
         users.add(UserSteps.getCreateUserRequestModel());
         accounts.add(UserSteps.getCreateAccountResponseModel());
         deposits.add(UserSteps.getUserDepositMoneyResponseModel());

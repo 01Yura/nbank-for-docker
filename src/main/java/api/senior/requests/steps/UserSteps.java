@@ -46,7 +46,7 @@ public class UserSteps {
         return createAccountResponseModel;
     }
 
-    public static UserDepositMoneyResponseModel depositMoney(Float depositPerCycle, Float depositThreshold) {
+    public static UserDepositMoneyResponseModel depositMoneyStatic(Float depositPerCycle, Float depositThreshold) {
         createAccountResponseModel = UserSteps.createAccount();
 
         UserDepositMoneyRequestModel userDepositMoneyRequestModel = UserDepositMoneyRequestModel.builder()
