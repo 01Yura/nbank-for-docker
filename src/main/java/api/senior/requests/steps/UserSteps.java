@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class UserSteps {
-    //    TODO нужно переделать эти поля на on-static  поправить код в некоторых тестах, чтобы использовать обьекты, а не
+    //    TODO нужно переделать эти поля на non-static  поправить код в некоторых тестах, чтобы использовать обьекты, а не
 //     статические поля
     private static CreateUserRequestModel createUserRequestModel;
     private static CreateAccountResponseModel createAccountResponseModel;

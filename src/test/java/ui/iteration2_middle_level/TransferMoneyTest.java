@@ -44,7 +44,7 @@ public class TransferMoneyTest extends BaseUiTest {
                         BankAlert.SUCCESSFULLY_TRANSFERRED.getMessage(),
                         amountToTransfer,
                         recipientAccount.getAccountNumber())
-                        .getLogoutButton().click();
+                .getLogoutButton().click();
 
 //        check balance userRecipient on UI
         authAsUser(userRecipient);
