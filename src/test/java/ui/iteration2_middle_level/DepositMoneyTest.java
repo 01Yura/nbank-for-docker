@@ -24,7 +24,7 @@ public class DepositMoneyTest extends BaseUiTest {
         authAsUser(user);
 
         CreateAccountResponseModel newAccount =
-                new UserSteps(user.getUsername(), user.getPassword()).createNewAccount();
+                new UserSteps(user.getUsername(), user.getPassword()).createAccount();
 
 //        STEPS OF TEST:
         Float moneyAmount = 10.0F;
@@ -63,7 +63,7 @@ public class DepositMoneyTest extends BaseUiTest {
         authAsUser(user);
 
         CreateAccountResponseModel newAccount =
-                new UserSteps(user.getUsername(), user.getPassword()).createNewAccount();
+                new UserSteps(user.getUsername(), user.getPassword()).createAccount();
 
 //        STEPS OF TEST:
         Float moneyAmount = 0.0F;

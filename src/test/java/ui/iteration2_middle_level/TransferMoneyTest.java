@@ -24,7 +24,7 @@ public class TransferMoneyTest extends BaseUiTest {
         authAsUser(userSender);
 
         CreateAccountResponseModel senderAccount =
-                new UserSteps(userSender.getUsername(), userSender.getPassword()).createNewAccount();
+                new UserSteps(userSender.getUsername(), userSender.getPassword()).createAccount();
 
         Float deposit = 100.0F;
         new UserSteps(userSender.getUsername(), userSender.getPassword()).depositMoney(senderAccount, 100.0F);
@@ -33,7 +33,7 @@ public class TransferMoneyTest extends BaseUiTest {
         CreateUserRequestModel userRecipient = AdminSteps.createUser();
 
         CreateAccountResponseModel recipientAccount =
-                new UserSteps(userRecipient.getUsername(), userRecipient.getPassword()).createNewAccount();
+                new UserSteps(userRecipient.getUsername(), userRecipient.getPassword()).createAccount();
 
 //        Start UI test
         Float amountToTransfer = 10.0F;
@@ -88,7 +88,7 @@ public class TransferMoneyTest extends BaseUiTest {
         authAsUser(userSender);
 
         CreateAccountResponseModel senderAccount =
-                new UserSteps(userSender.getUsername(), userSender.getPassword()).createNewAccount();
+                new UserSteps(userSender.getUsername(), userSender.getPassword()).createAccount();
 
         Float deposit = 100.0F;
         new UserSteps(userSender.getUsername(), userSender.getPassword()).depositMoney(senderAccount, 100.0F);
@@ -97,7 +97,7 @@ public class TransferMoneyTest extends BaseUiTest {
         CreateUserRequestModel userRecipient = AdminSteps.createUser();
 
         CreateAccountResponseModel recipientAccount =
-                new UserSteps(userRecipient.getUsername(), userRecipient.getPassword()).createNewAccount();
+                new UserSteps(userRecipient.getUsername(), userRecipient.getPassword()).createAccount();
 
 //        Start UI test
         Float amountToTransfer = 99999.0F;

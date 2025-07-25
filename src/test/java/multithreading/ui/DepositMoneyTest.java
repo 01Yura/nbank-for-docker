@@ -1,4 +1,4 @@
-package ui.iteration2_senior_level;
+package multithreading.ui;
 
 import api.senior.models.CreateAccountResponseModel;
 import api.senior.models.GetCustomerAccountsResponseModel;
@@ -7,9 +7,9 @@ import common.annotations.Browsers;
 import common.annotations.UserSession;
 import common.storage.SessionStorage;
 import org.junit.jupiter.api.Test;
-import ui.middle.pages.BankAlert;
-import ui.middle.pages.DepositPage;
-import ui.middle.pages.UserDashboard;
+import ui.senior.pages.BankAlert;
+import ui.senior.pages.DepositPage;
+import ui.senior.pages.UserDashboard;
 
 import java.util.List;
 
