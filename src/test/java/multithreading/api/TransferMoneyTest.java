@@ -1,4 +1,4 @@
-package api.iteration2_senior_level;
+package multithreading.api;
 
 import api.senior.models.*;
 import api.senior.requests.skeleton.requesters.CrudRequester;
@@ -9,7 +9,6 @@ import api.senior.requests.steps.UserSteps;
 import api.senior.specs.RequestSpecs;
 import api.senior.specs.ResponseSpecs;
 import io.restassured.common.mapper.TypeRef;
-import multithreading.api.BaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -55,7 +54,7 @@ public class TransferMoneyTest extends BaseTest {
 //        Create a second user + account
         CreateUserRequestModel userReceiver = AdminSteps.createUser();
         UserSteps userReceiverSteps = new UserSteps(userReceiver.getUsername(), userReceiver.getPassword());
-        CreateAccountResponseModel receiverAccount = userReceiverSteps.createAccount();
+        CreateAccountResponseModel receiverAccount= userReceiverSteps.createAccount();
 
 
 //        Transfer money
@@ -136,7 +135,7 @@ public class TransferMoneyTest extends BaseTest {
 //        Create a second user + account
         CreateUserRequestModel userReceiver = AdminSteps.createUser();
         UserSteps userReceiverSteps = new UserSteps(userReceiver.getUsername(), userReceiver.getPassword());
-        CreateAccountResponseModel receiverAccount = userReceiverSteps.createAccount();
+        CreateAccountResponseModel receiverAccount= userReceiverSteps.createAccount();
 
 //        Transfer money
         TransferMoneyRequestModel model = TransferMoneyRequestModel.builder()

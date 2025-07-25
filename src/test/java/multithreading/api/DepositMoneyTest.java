@@ -1,18 +1,17 @@
-package api.iteration2_senior_level;
+package multithreading.api;
 
 import api.senior.models.*;
-import api.senior.requests.steps.AdminSteps;
-import io.restassured.common.mapper.TypeRef;
-import multithreading.api.BaseTest;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import api.senior.requests.skeleton.requesters.CrudRequester;
 import api.senior.requests.skeleton.requesters.Endpoint;
 import api.senior.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.senior.requests.steps.AdminSteps;
 import api.senior.requests.steps.UserSteps;
 import api.senior.specs.RequestSpecs;
 import api.senior.specs.ResponseSpecs;
+import io.restassured.common.mapper.TypeRef;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.stream.Stream;
