@@ -8,7 +8,17 @@ import api.senior.models.BaseModel;
 import api.senior.requests.skeleton.interfaces.CrudEndpointInterface;
 
 import static io.restassured.RestAssured.given;
-
+/*
+Класс CrudRequester — это универсальный класс для выполнения CRUD-запросов (GET, PUT, POST, DELETE и т.д.) к REST API,
+с заранее настроенными RequestSpecification и ResponseSpecification.
+CrudRequester — это фасад над REST Assured, который:
+ - знает, куда обращаться (Endpoint endpoint)
+ - знает, с какими настройками (RequestSpecification, ResponseSpecification)
+ - знает, как выполнять стандартные операции (get(), put() и т.д.)
+Возвращает ValidatableResponse из RestAssured. Это объект из REST Assured, который позволяет:
+ - делать ассерты над телом/статусом/заголовками ответа
+ - проверять JSON, XML, текст и т.д.
+* */
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointsInterface {
     public CrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, Endpoint endpoint) {
         super(requestSpecification, responseSpecification, endpoint);

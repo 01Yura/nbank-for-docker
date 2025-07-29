@@ -12,7 +12,12 @@ import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/*
+🔹 RequestSpecification (RequestSpec)
+Это шаблон для всех запросов: хедеры, content type, базовый URL, фильтры, авторизация и т.п.
+→ Это хедер + content type + фильтры → всё собрано в одном месте.
+→ Позволяет легко использовать например adminSpec() везде, где нужен доступ с правами админа.
+*/
 public class RequestSpecs {
     private static Map<String, String> authHeaders = new HashMap<>();
 

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
+//    Это единственный экземпляр класса Config, создаётся при загрузке класса (eager initialization).
     private static final Config INSTANCE = new Config();
     private final Properties properties = new Properties();
 

@@ -56,7 +56,7 @@ public class BaseUiTest extends BaseTest {
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя по имени класса теста
     @AfterEach
     void tearDown() {
-        WebDriverRunner.closeWindow();
+        Selenide.closeWebDriver();
     }
 
     void authAsUser(String username, String password) {

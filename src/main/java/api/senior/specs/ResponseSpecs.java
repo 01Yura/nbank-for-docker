@@ -6,6 +6,10 @@ import org.hamcrest.Matchers;
 
 import static org.hamcrest.Matchers.equalTo;
 
+/*
+🔸 ResponseSpecification (ResponseSpec)
+Это набор ожиданий для ответа, которые можно переиспользовать: статус-код, схема, тело и т.д.
+*/
 public class ResponseSpecs {
     private ResponseSpecs() {
     }
