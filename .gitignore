@@ -16,6 +16,7 @@ target/
 misc.xml
 vcs.xml
 .env
+test-output
 
 
 ### Eclipse ###
