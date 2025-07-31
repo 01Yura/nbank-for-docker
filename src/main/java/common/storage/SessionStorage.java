@@ -1,7 +1,7 @@
 package common.storage;
 
-import api.senior.models.CreateUserRequestModel;
-import api.senior.requests.steps.UserSteps;
+import api.models.CreateUserRequestModel;
+import api.requests.steps.UserSteps;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -1,12 +1,12 @@
 package common.extensions;
 
-import api.senior.models.CreateUserRequestModel;
-import api.senior.requests.steps.AdminSteps;
+import api.models.CreateUserRequestModel;
+import api.requests.steps.AdminSteps;
 import common.annotations.UserSession;
 import common.storage.SessionStorage;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import ui.senior.pages.BasePage;
+import ui.pages.BasePage;
 
 import java.util.ArrayList;
 import java.util.List;

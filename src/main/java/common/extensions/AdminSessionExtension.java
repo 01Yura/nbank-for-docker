@@ -1,10 +1,10 @@
 package common.extensions;
 
-import api.senior.models.CreateUserRequestModel;
+import api.models.CreateUserRequestModel;
 import common.annotations.AdminSession;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import ui.senior.pages.BasePage;
+import ui.pages.BasePage;
 
 // имплементируем BeforeEachCallback чтобы перед каждым методом мы анализировали наличие AdminSession аннтотации
 public class AdminSessionExtension implements BeforeEachCallback {
