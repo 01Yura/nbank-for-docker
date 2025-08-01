@@ -1,26 +1,14 @@
 #!/bin/bash
 
 
-echo "Поднимаем тестовое окружение"
-
-docker compose up -d
-
-
-echo "Запускаем тесты"
-
-docker run --rm \
-
-  -e APIBASEURL=http://localhost:4111 \
-
-  -e UIBASEURL=http://localhost:80\
-
-  -e SELENOID_URL=http://localhost:4444 \
-
-  -e SELENOID_UI_URL=http://localhost:8080 \
-
-  <имя-образа-с-тестами>
+echo "Поднимаем тестовое окружение..."
+./restart_docker.sh
 
 
-echo "Останавливаем тестовое окружение"
+echo "Запускаем тесты..."
+cd ..
+./run-tests.sh
 
-docker compose down
+echo "Останавливаем тестовое окружение..."
+cd infra
+docker-compose down
