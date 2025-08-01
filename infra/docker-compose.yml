@@ -62,5 +62,5 @@ services:
       - nbank-network
 
 networks:
-  - nbank-network:
-      name: nbank-network
+  nbank-network:
+    name: nbank-network
