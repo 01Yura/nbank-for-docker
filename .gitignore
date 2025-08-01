@@ -15,8 +15,9 @@ target/
 *.ipr
 misc.xml
 vcs.xml
-.env
+.env*
 test-output
+selenoid-reports/*
 
 
 ### Eclipse ###

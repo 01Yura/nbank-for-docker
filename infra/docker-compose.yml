@@ -1,3 +1,17 @@
+# ============================================================================
+# ВАЖНО: Перед запуском создайте файл .env рядом с этим docker-compose.yml
+#
+# Внутри .env укажите абсолютный путь к проекту, например:
+#
+#   HOST_PATH=/home/yura/nbank-for-docker
+#
+# Для Windows (Git Bash/WSL) укажите путь в формате:
+#
+#   HOST_PATH=C:/Users/Yura/nbank
+#
+# Docker Compose подставит ${HOST_PATH} во все тома (volumes).
+# ============================================================================
+
 services:
   backend:
     image: nobugsme/nbank:with_username_error_fix
@@ -8,9 +22,9 @@ services:
 
   frontend:
     image: nobugsme/nbank-ui:latest
-    expose:         # не открываем порт наружу, а даем доступ только внутри
-      - "80"
-    depends_on:     # запускаем frontend только после backend'а
+    expose:         
+      - "80"        # доступен только внутри сети
+    depends_on:     
       - backend
     networks:
       - nbank-network
@@ -36,8 +50,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./selenoid_reports/video:/opt/selenoid/video
       - ./selenoid_reports/logs:/opt/selenoid/logs
+    # если не закомментить environment и оставить путь относительным, то тесты падают,
+    # но теперь видео не пишется, надо позже решить эту проблему
+    # так как если просто поднимать указывая абсолютный путь то все норм
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=./selenoid_reports/video
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/home/yura/test/nbank-for-docker/infra/selenoid_reports/video
     command:
       [
         "-container-network", "nbank-network",
