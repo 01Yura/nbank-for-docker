@@ -3,7 +3,7 @@
 #
 # Внутри .env укажите абсолютный путь к проекту, например:
 #
-#   HOST_PATH=/home/yura/nbank-for-docker
+#   HOST_PATH=/home/yura/test/nbank-for-docker
 #
 # Для Windows (Git Bash/WSL) укажите путь в формате:
 #
@@ -54,7 +54,7 @@ services:
     # но теперь видео не пишется, надо позже решить эту проблему
     # так как если просто поднимать указывая абсолютный путь то все норм
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=/home/yura/test/nbank-for-docker/infra/selenoid_reports/video
+      - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/infra/selenoid_reports/video
     command:
       [
         "-container-network", "nbank-network",
