@@ -29,7 +29,7 @@ jobs: # Этапы работы пайплайна
         run: cd infra && bash restart_docker.sh && cd ../..
 
       - name: Run tests # Запуск тестов с Maven
-        run: ./mvnw clean test -q
-        env:
-          APIBASEURL: http://localhost:4111
-          UIBASEURL: http://localhost
+        run: ./mvnw clean test -P api -q
+        # env:
+        #   APIBASEURL: http://localhost:4111
+        #   UIBASEURL: http://localhost
