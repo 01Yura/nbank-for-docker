@@ -1,23 +1,22 @@
 name: Run tests
 
-# Триггер
 on: [ push, workflow_dispatch ]
 
-jobs: # Этапы работы пайплайна
+jobs:
   run-tests:
     name: Set up services (review apps) and run tests
     runs-on: ubuntu-latest
-    steps: # Шаги внутри job
-      - name: Checkout repository # Копирование файлов репозитория внутрь CI агента
+    steps:
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK # Установка JDK для работы с проектом
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Cache Maven repository # Кэширование репозитория Maven для ускорения сборки
+      - name: Cache Maven repository
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
@@ -25,12 +24,15 @@ jobs: # Этапы работы пайплайна
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up services # Настройка сервисов, например, запуск Docker контейнеров
+      - name: Set up services
         run: cd infra && bash restart_docker.sh && cd ../..
 
       - name: Detect runner IP
         id: runner_ip
-        run: echo "ip=$(hostname -I | awk '{print $1}')" >> $GITHUB_OUTPUT
+        run: |
+          ip=$(hostname -I | awk '{print $1}')
+          echo "Runner IP is: $ip"
+          echo "ip=$ip" >> $GITHUB_OUTPUT
 
       - name: Run tests
         run: ./mvnw clean test -P ui -q
