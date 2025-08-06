@@ -33,5 +33,5 @@ jobs: # Этапы работы пайплайна
           RUNNER_IP=$(hostname -I | awk '{print $1}')
           echo "Detected runner IP: $RUNNER_IP"
           APIBASEURL="http://$RUNNER_IP:4111" \
-          UIBASEURL="http://$RUNNER_IP:80" \
+          UIBASEURL="http://frontend" \
           ./mvnw clean test -P ui -q
