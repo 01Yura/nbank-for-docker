@@ -22,24 +22,12 @@ services:
 
   frontend:
     image: nobugsme/nbank-ui:latest
-    ports:         
+    ports:
       - "3000:80"
-    depends_on:     
+    depends_on:
       - backend
     networks:
       - nbank-network
-
-  # nginx:
-  #   image: nginx:latest
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
-  #   depends_on:
-  #     - backend
-  #     - frontend
-  #   networks:
-  #     - nbank-network
 
   selenoid:
     image: aerokube/selenoid
@@ -50,9 +38,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./selenoid_reports/video:/opt/selenoid/video
       - ./selenoid_reports/logs:/opt/selenoid/logs
-    # если не закомментить environment и оставить путь относительным, то тесты падают,
-    # но теперь видео не пишется, надо позже решить эту проблему
-    # так как если просто поднимать указывая абсолютный путь то все норм
     environment:
       - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/infra/selenoid_reports/video
     command:
@@ -75,6 +60,14 @@ services:
     command: [ "--selenoid-uri", "http://selenoid:4444" ]
     depends_on:
       - selenoid
+    networks:
+      - nbank-network
+
+  # Фиктивный сервис для предварительной загрузки видео-рекордера
+  selenoid-video-puller:
+    image: selenoid/video-recorder:latest-release
+    command: ["true"]        # Контейнер мгновенно завершится
+    restart: "no"            # Не перезапускать
     networks:
       - nbank-network
 
