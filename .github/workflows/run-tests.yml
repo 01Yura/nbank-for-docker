@@ -30,6 +30,6 @@ jobs: # Этапы работы пайплайна
 
       - name: Run tests # Запуск тестов с Maven
         run: ./mvnw clean test -P api -q
-        # env:
-        #   APIBASEURL: http://localhost:4111
-        #   UIBASEURL: http://localhost
+        env:
+          APIBASEURL: http://localhost:4111
+          UIBASEURL: http://localhost:80
