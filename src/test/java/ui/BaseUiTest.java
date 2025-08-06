@@ -27,7 +27,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 public class BaseUiTest extends BaseTest {
     @BeforeAll
     static void globalSelenideSetup() {
-        Configuration.remote = Config.getProperty("uiRemote");
+//        Configuration.remote = Config.getProperty("uiRemote");
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
