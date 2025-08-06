@@ -31,7 +31,7 @@ public class BaseUiTest extends BaseTest {
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.timeout = 10000; // 10 секунд
     }
 
