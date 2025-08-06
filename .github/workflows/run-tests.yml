@@ -28,10 +28,8 @@ jobs: # Этапы работы пайплайна
       - name: Set up services # Настройка сервисов, например, запуск Docker контейнеров
         run: cd infra && bash restart_docker.sh && cd ../..
 
-      - name: Run tests
-        run: |
-          RUNNER_IP=$(hostname -I | awk '{print $1}')
-          echo "Detected runner IP: $RUNNER_IP"
-          APIBASEURL="http://$RUNNER_IP:4111" \
-          UIBASEURL="http://frontend" \
-          ./mvnw clean test -P ui -q
+      - name: Run tests # Запуск тестов с Maven
+        run: ./mvnw clean test -P ui -q
+        env:
+          APIBASEURL: http://localhost:4111
+          UIBASEURL: http://localhost:3000
