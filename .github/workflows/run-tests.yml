@@ -37,6 +37,6 @@ jobs:
       - name: Run tests
         run: ./mvnw clean test -P ui -q
         env:
-          APIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:4111
+          APIBASEURL: http://localhost:4111
           UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:3000
           UIREMOTE: http://localhost:4444/wd/hub
