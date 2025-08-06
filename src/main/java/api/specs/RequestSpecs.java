@@ -31,7 +31,7 @@ public class RequestSpecs {
 
     private static RequestSpecBuilder defaultRequestSpecBuilder() {
         return new RequestSpecBuilder()
-                .setBaseUri(Config.getProperty("apiBaseurl") + Config.getProperty("apiVersion"))
+                .setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
                 .addFilters(List.of(new CustomLoggingFilter()));
