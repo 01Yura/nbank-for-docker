@@ -32,7 +32,7 @@
 ./mvnw checkstyle:check
 
 # Сборка Docker-образа
-docker build -t your-username/nbank-for-docker:latest .
+docker build -t 01yura/nbank-tests:latest .
 ```
 
 ### Запуск пайплайна

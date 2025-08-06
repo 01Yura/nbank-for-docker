@@ -53,6 +53,14 @@
 
 Файл `.github/workflows/ci-cd.yml` содержит полный пайплайн:
 
+#### Переменные окружения:
+
+- `APIBASEURL: http://localhost:4111` - URL API сервиса
+- `UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:80` - URL UI сервиса
+- `UIREMOTE: http://localhost:4444/wd/hub` - URL Selenium Hub
+- `REGISTRY: docker.io` - Docker Hub реестр
+- `IMAGE_NAME: 01yura/nbank-tests` - Имя образа в Docker Hub
+
 #### Триггеры:
 
 - Push в main/master ветку с изменениями в `src/`
@@ -65,12 +73,15 @@
 2. **Setup JDK 21** - настройка Java
 3. **Cache Maven** - кеширование зависимостей
 4. **Get commit hash** - получение хеша коммита
-5. **Build project** - сборка проекта
-6. **Run Checkstyle** - проверка стиля кода
-7. **Run tests** - запуск тестов
-8. **Setup Docker Buildx** - настройка Docker
-9. **Login to Docker Hub** - вход в Docker Hub (только для push)
-10. **Build and push** - сборка и отправка образа
+5. **Detect runner IP** - определение IP адреса runner
+6. **Setup HOST_PATH** - настройка переменных для docker-compose
+7. **Setup services** - поднятие инфраструктуры (API, UI, Selenium)
+8. **Build project** - сборка проекта с правильными переменными окружения
+9. **Run Checkstyle** - проверка стиля кода с правильными переменными окружения
+10. **Run tests** - запуск тестов с правильными переменными окружения
+11. **Setup Docker Buildx** - настройка Docker
+12. **Login to Docker Hub** - вход в Docker Hub (только для push)
+13. **Build and push** - сборка и отправка образа
 
 ## Настройка
 
@@ -107,7 +118,7 @@
 Для локальной сборки Docker-образа:
 
 ```bash
-docker build -t your-dockerhub-username/nbank-for-docker:latest .
+docker build -t 01yura/nbank-tests:latest .
 ```
 
 ## Особенности
