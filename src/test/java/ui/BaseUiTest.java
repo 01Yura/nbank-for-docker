@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
+// просто проверка работы пайплайна
 @ExtendWith(AdminSessionExtension.class)
 @ExtendWith(UserSessionExtension.class)
 @ExtendWith(BrowserMatchExtension.class)
