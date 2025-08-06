@@ -24,8 +24,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Set HOST_PATH for docker-compose
+        run: |
+          PROJECT_PATH=$(pwd)
+          echo "Detected project path: $PROJECT_PATH"
+          echo "HOST_PATH=$PROJECT_PATH" > infra/.env
+          cat infra/.env
+
       - name: Set up services
-        run: cd infra && bash restart_docker.sh && cd ../..
+        run: cd infra && bash restart_docker.sh && cd ..
 
       - name: Detect runner IP
         id: runner_ip

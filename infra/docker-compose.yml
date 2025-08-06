@@ -1,49 +1,76 @@
-name: Run tests
+# ============================================================================
+# ВАЖНО: Перед запуском создайте файл .env рядом с этим docker-compose.yml
+#
+# Внутри .env укажите абсолютный путь к проекту, например:
+#
+#   HOST_PATH=/home/yura/test/nbank-for-docker
+#
+# Для Windows (Git Bash/WSL) укажите путь в формате:
+#
+#   HOST_PATH=C:/Users/Yura/nbank
+#
+# Docker Compose подставит ${HOST_PATH} во все тома (volumes).
+# ============================================================================
 
-on: [ push, workflow_dispatch ]
+services:
+  backend:
+    image: nobugsme/nbank:with_username_error_fix
+    ports:
+      - "4111:4111"
+    networks:
+      - nbank-network
 
-jobs:
-  run-tests:
-    name: Set up services (review apps) and run tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  frontend:
+    image: nobugsme/nbank-ui:latest
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - nbank-network
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
+  selenoid:
+    image: aerokube/selenoid
+    ports:
+      - "4444:4444"
+    volumes:
+      - ./config:/etc/selenoid:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./selenoid_reports/video:/opt/selenoid/video
+      - ./selenoid_reports/logs:/opt/selenoid/logs
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/infra/selenoid_reports/video
+    command:
+      [
+        "-container-network", "nbank-network",
+        "-conf", "/etc/selenoid/browsers.json",
+        "-video-output-dir", "/opt/selenoid/video",
+        "-log-output-dir", "/opt/selenoid/logs",
+        "-timeout", "10s"
+      ]
+    depends_on:
+      - frontend
+    networks:
+      - nbank-network
 
-      - name: Cache Maven repository
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+  selenoid-ui:
+    image: aerokube/selenoid-ui
+    ports:
+      - "8080:8080"
+    command: [ "--selenoid-uri", "http://selenoid:4444" ]
+    depends_on:
+      - selenoid
+    networks:
+      - nbank-network
 
-      - name: Set HOST_PATH for docker-compose
-        run: |
-          PROJECT_PATH=$(pwd)
-          echo "Detected project path: $PROJECT_PATH"
-          echo "HOST_PATH=$PROJECT_PATH" > infra/.env
-          cat infra/.env
+  # Фиктивный сервис для предварительной загрузки видео-рекордера
+  selenoid-video-puller:
+    image: selenoid/video-recorder:latest-release
+    command: ["true"]        # Контейнер мгновенно завершится
+    restart: "no"            # Не перезапускать
+    networks:
+      - nbank-network
 
-      - name: Set up services
-        run: cd infra && bash restart_docker.sh && cd ..
-
-      - name: Detect runner IP
-        id: runner_ip
-        run: |
-          ip=$(hostname -I | awk '{print $1}')
-          echo "Runner IP is: $ip"
-          echo "ip=$ip" >> $GITHUB_OUTPUT
-
-      - name: Run tests
-        run: ./mvnw clean test -P ui -q
-        env:
-          APIBASEURL: http://localhost:4111
-          UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:3000
-          UIREMOTE: http://localhost:4444/wd/hub
+networks:
+  nbank-network:
+    name: nbank-network
