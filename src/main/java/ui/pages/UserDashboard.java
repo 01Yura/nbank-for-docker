@@ -6,6 +6,8 @@ import lombok.Getter;
 
 import static com.codeborne.selenide.Selenide.$;
 
+// тестирую пайплайн
+
 @Getter
 public class UserDashboard extends BasePage<UserDashboard> {
     private SelenideElement welcomeText = $(Selectors.byClassName("welcome-text"));
