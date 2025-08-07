@@ -169,7 +169,6 @@ jobs:
           🐳 *Docker Hub:* [${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}](https://hub.docker.com/r/${{ env.IMAGE_NAME }})
           🏷️ *Tags:*
           \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.commit_hash.outputs.hash }}\`
-          \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest\`
 
           🔗 *Workflow Run:* [View on GitHub](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
 
