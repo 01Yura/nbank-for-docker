@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [ workflow_dispatch ]
+on: [ push, workflow_dispatch ]
 
 jobs:
   run-tests:
@@ -47,3 +47,17 @@ jobs:
           APIBASEURL: http://localhost:4111
           UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:80
           UIREMOTE: http://localhost:4444/wd/hub
+
+      - name: Notify on success
+        if: success()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="✅ Tests PASSED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="❌ Tests FAILED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}"
