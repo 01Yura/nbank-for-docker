@@ -157,17 +157,33 @@ jobs:
         if: success()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d parse_mode=Markdown \
-          -d text="✅ *Docker image pushed successfully!*
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=Markdown \
+            -d text="✅ *Docker image pushed successfully!*
+
+          📦 *Repository:* [${{ github.repository }}](https://github.com/${{ github.repository }})
+          🌿 *Branch:* \`${{ github.ref_name }}\`
+          🔁 *Commit:* [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          👤 *Author:* \`${{ github.actor }}\`
+    
+          🐳 *Docker Hub:* [${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}](https://hub.docker.com/r/${{ env.IMAGE_NAME }})
+          🏷️ *Tags:*
+          \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.commit_hash.outputs.hash }}\`
+          \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest\`
+
+          🔗 *Workflow Run:* [View on GitHub](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+
+      - name: Notify Telegram on failure
+        if: failure()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=Markdown \
+            -d text="❌ *Docker pipeline failed!*
   
           📦 *Repository:* [${{ github.repository }}](https://github.com/${{ github.repository }})
           🌿 *Branch:* `${{ github.ref_name }}`
           🔁 *Commit:* [`${{ github.sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           👤 *Author:* `${{ github.actor }}`
-  
-          🐳 *Docker Hub:* [${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}](https://hub.docker.com/r/${{ env.IMAGE_NAME }})
-          🏷️ *Tags:* \`${{ steps.meta.outputs.tags }}\`
-  
-          🔗 *Workflow Run:* [View on GitHub](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"       
-
+          
+          🚨 *Check the logs here:* [GitHub Actions Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
