@@ -1,4 +1,4 @@
-# CI/CD Pipeline Setup
+# DOCKER-IMAGE-PUSH Setup
 
 ## Обзор
 

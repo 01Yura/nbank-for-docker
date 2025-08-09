@@ -5,6 +5,7 @@ import api.configs.CustomLoggingFilter;
 import api.models.LoginUserRequestModel;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.Endpoint;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -34,7 +35,12 @@ public class RequestSpecs {
                 .setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .addFilters(List.of(new CustomLoggingFilter()));
+//                кастомный логгер и аллюр логгер
+                .addFilters(List.of(new CustomLoggingFilter(), new AllureRestAssured()));
+//                .addFilters(List.of(
+//                        new RequestLoggingFilter(),
+//                        new ResponseLoggingFilter(),
+//                        new AllureRestAssured()));
     }
 
 

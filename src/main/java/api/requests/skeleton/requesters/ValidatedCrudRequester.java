@@ -9,6 +9,11 @@ import io.restassured.specification.ResponseSpecification;
 import java.util.Arrays;
 import java.util.List;
 
+// ValidatedCrudRequester<T>: типобезопасная обёртка над CrudRequester, которая сразу десериализует ответ в модель.
+// Делегирует сетевые вызовы внутрь CrudRequester, затем делает .extract().as(...) по типу из Endpoint.
+// Упрощает тесты и steps: возвращает сразу T или List<T> вместо ValidatableResponse.
+// Идеален для бизнес-операций в шагах (UserSteps, AdminSteps), когда нужен конкретный объект ответа.
+
 public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndpointInterface, GetAllEndpointsInterface {
     private CrudRequester crudRequester;
 

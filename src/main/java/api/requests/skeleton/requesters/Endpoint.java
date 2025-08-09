@@ -4,6 +4,11 @@ import api.models.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+// Единый контракт эндпоинта: URL + тип запроса + тип ответа — “источник истины” для каждого эндпоинта в одном месте. Упрощает поддержку и рефакторинг.
+// Автодесериализация ответа: ValidatedCrudRequester извлекает ответ в нужную модель, не требуя каждый раз передавать Class.
+
+
+
 @Getter
 @AllArgsConstructor
 public enum Endpoint {
