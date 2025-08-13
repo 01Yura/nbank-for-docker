@@ -7,8 +7,10 @@ import api.requests.skeleton.requesters.Endpoint;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.helper.StepLogger;
 
 import java.util.List;
+
 /*
 Классы UserSteps и AdminSteps — это шаги (steps), которые являются высокоуровневыми обёртками над вызовами API.
 Они служат для того, чтобы тесты выглядели максимально читаемо и не содержали низкоуровневой логики запросов (given().when().then()).
@@ -22,20 +24,25 @@ public class AdminSteps {
     public static CreateUserRequestModel createUser() {
         CreateUserRequestModel createUserRequestModel = RandomModelGenerator.generateRandomModel(CreateUserRequestModel.class);
 
-        CreateUserResponseModel createUserResponseModel =
-                new ValidatedCrudRequester<CreateUserResponseModel>(RequestSpecs.adminSpec(),
-                        ResponseSpecs.responseReturns201Spec(),
-                        Endpoint.ADMIN_USERS)
-                        .post(createUserRequestModel);
+        return StepLogger.log("Admin creates user " + createUserRequestModel.getUsername(), () -> {
 
-        return createUserRequestModel;
+            CreateUserResponseModel createUserResponseModel =
+                    new ValidatedCrudRequester<CreateUserResponseModel>(RequestSpecs.adminSpec(),
+                            ResponseSpecs.responseReturns201Spec(),
+                            Endpoint.ADMIN_USERS)
+                            .post(createUserRequestModel);
+
+            return createUserRequestModel;
+        });
     }
 
-    public static List<CreateUserResponseModel> getAllUsers(){
-        return new ValidatedCrudRequester<CreateUserResponseModel>(
-                RequestSpecs.adminSpec(),
-                ResponseSpecs.responseReturns200Spec(),
-                Endpoint.ADMIN_USERS).
-                getAll(CreateUserResponseModel[].class);
+    public static List<CreateUserResponseModel> getAllUsers() {
+        return StepLogger.log("Admin gets all users", () -> {
+            return new ValidatedCrudRequester<CreateUserResponseModel>(
+                    RequestSpecs.adminSpec(),
+                    ResponseSpecs.responseReturns200Spec(),
+                    Endpoint.ADMIN_USERS).
+                    getAll(CreateUserResponseModel[].class);
+        });
     }
 }

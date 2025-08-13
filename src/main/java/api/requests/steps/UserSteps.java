@@ -6,6 +6,7 @@ import api.requests.skeleton.requesters.Endpoint;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.helper.StepLogger;
 
 import java.util.List;
 
@@ -41,11 +42,13 @@ public class UserSteps {
     }
 
     public List<GetCustomerAccountsResponseModel> getAllAccounts() {
-        return new ValidatedCrudRequester<GetCustomerAccountsResponseModel>(
-                RequestSpecs.userSpec(this.username, this.password),
-                ResponseSpecs.responseReturns200Spec(),
-                Endpoint.CUSTOMER_ACCOUNTS)
-                .getAll(GetCustomerAccountsResponseModel[].class);
+        return StepLogger.log("User " + this.username + " get all accounts", () -> {
+            return new ValidatedCrudRequester<GetCustomerAccountsResponseModel>(
+                    RequestSpecs.userSpec(this.username, this.password),
+                    ResponseSpecs.responseReturns200Spec(),
+                    Endpoint.CUSTOMER_ACCOUNTS)
+                    .getAll(GetCustomerAccountsResponseModel[].class);
+        });
     }
 
     public GetCustomerProfileResponseModel getUserInfo() {
