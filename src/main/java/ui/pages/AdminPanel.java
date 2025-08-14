@@ -31,7 +31,6 @@ public class AdminPanel extends BasePage<AdminPanel> {
 
     public List<UserBage> getAllUsers() throws InterruptedException {
         return StepLogger.log("Get all users from Dashboard", () -> {
-            Thread.sleep(1000);
             ElementsCollection elementsCollection =
                     $(Selectors.byText("All Users")).shouldBe(Condition.visible).parent().findAll("li");
             return generatePageElements(elementsCollection, UserBage::new);
