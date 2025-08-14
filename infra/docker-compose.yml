@@ -50,7 +50,7 @@ services:
       - ${HOST_PATH}/selenoid_reports/video:/opt/selenoid/video
       - ${HOST_PATH}/selenoid_reports/logs:/opt/selenoid/logs
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/infra/selenoid_reports/video
+      - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/selenoid_reports/video
     command:
       [
         "-container-network",
