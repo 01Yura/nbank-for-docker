@@ -17,8 +17,8 @@ misc.xml
 vcs.xml
 .env*
 test-output
-./infra/selenoid-reports/logs/*
-./infra/selenoid-reports/video/*
+.selenoid-reports/logs/*
+.selenoid-reports/video/*
 
 
 ### Eclipse ###

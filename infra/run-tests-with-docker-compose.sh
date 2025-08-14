@@ -2,7 +2,7 @@
 
 
 echo "Поднимаем тестовое окружение..."
-./restart_docker.sh
+./start-docker-compose.sh
 
 
 echo "Запускаем тесты..."
