@@ -32,7 +32,7 @@ jobs:
           cat infra/.env
 
       - name: Set up services
-        run: cd infra && start-docker-compose.sh && cd ..
+        run: pwd && cd infra && start-docker-compose.sh && cd ..
 
       - name: Detect runner IP
         id: runner_ip
