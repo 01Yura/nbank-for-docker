@@ -82,10 +82,10 @@ services:
   # Фиктивный сервис для предварительной загрузки видео-рекордера
   selenoid-video-puller:
     image: selenoid/video-recorder:latest-release
-    profiles:
-      - pull-only # Сервис не запускается по умолчанию
-    command: ["true"]
-    restart: "no"
+    # profiles:
+    #   - pull-only # Сервис не запускается по умолчанию
+    # command: ["true"]
+    # restart: "no"
     networks:
       - nbank-network
 
