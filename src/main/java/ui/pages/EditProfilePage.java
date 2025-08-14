@@ -19,7 +19,7 @@ public class EditProfilePage extends BasePage<EditProfilePage> {
     }
 
     public EditProfilePage changeName(String name) {
-        enterNewNameInput.shouldBe(Condition.enabled).shouldBe(Condition.clickable).sendKeys(name);
+        enterNewNameInput.shouldBe(Condition.visible).sendKeys(name);
         saveChangesButton.click();
         return this;
     }
