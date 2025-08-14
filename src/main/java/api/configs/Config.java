@@ -40,7 +40,7 @@ public class Config {
         String envValue = System.getenv(envKey);
         if (envValue != null) return envValue;
 
-//        ПРИОРИТЕТ 2 - это config.properties
+//        ПРИОРИТЕТ 3 - это config.properties
 //        используется для локального запуска прямо из IDE
         return INSTANCE.properties.getProperty(key);
     }
