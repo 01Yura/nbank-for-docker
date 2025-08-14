@@ -1,5 +1,6 @@
 package ui.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class EditProfilePage extends BasePage<EditProfilePage> {
     }
 
     public EditProfilePage changeName(String name) {
-        enterNewNameInput.sendKeys(name);
+        enterNewNameInput.shouldBe(Condition.enabled).shouldBe(Condition.clickable).sendKeys(name);
         saveChangesButton.click();
         return this;
     }
