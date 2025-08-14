@@ -36,7 +36,7 @@ public class BaseUiTest extends BaseTest {
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
-        Configuration.headless = false;
+        Configuration.headless = true;
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }

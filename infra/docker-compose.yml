@@ -79,13 +79,9 @@ services:
     networks:
       - nbank-network
 
-  # Фиктивный сервис для предварительной загрузки видео-рекордера
-  selenoid-video-puller:
+  # Этот контейнер тоже надо запускать, но зачем не понятно, иначе ошибка
+  selenoid-video-recorder:
     image: selenoid/video-recorder:latest-release
-    # profiles:
-    #   - pull-only # Сервис не запускается по умолчанию
-    # command: ["true"]
-    # restart: "no"
     networks:
       - nbank-network
 
