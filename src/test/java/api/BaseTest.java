@@ -5,8 +5,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-@ExtendWith(TimingExtension.class)
+// закомментил так так вылезала ошибка - NullPointer Cannot invoke "java.lang.Long.longValue()" because the return value of "java.util.Map.get(Object)" is null
+//@ExtendWith(TimingExtension.class)
 public class BaseTest {
     //    переменная amountOfAllUsers просто для наглядности, чтобы увидеть в конце прогона
 //    сколько юзеров было создано и удалено соответственно
