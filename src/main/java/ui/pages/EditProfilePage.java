@@ -9,8 +9,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 @Getter
 public class EditProfilePage extends BasePage<EditProfilePage> {
-    private SelenideElement enterNewNameInput = $(Selectors.byAttribute("placeholder", "Enter new name"));
-    private SelenideElement saveChangesButton = $(Selectors.byText("\uD83D\uDCBE Save Changes"));
+    private final SelenideElement enterNewNameInput = $(Selectors.byAttribute("placeholder", "Enter new name"));
+    private final SelenideElement saveChangesButton = $(Selectors.byText("\uD83D\uDCBE Save Changes"));
 
 
     @Override
@@ -19,7 +19,7 @@ public class EditProfilePage extends BasePage<EditProfilePage> {
     }
 
     public EditProfilePage changeName(String name) {
-        enterNewNameInput.shouldBe(Condition.visible).sendKeys(name);
+        enterNewNameInput.shouldBe(Condition.clickable).sendKeys(name);
         saveChangesButton.click();
         return this;
     }
