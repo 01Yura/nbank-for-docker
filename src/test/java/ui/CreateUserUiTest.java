@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class CreateUserTest extends BaseUiTest {
+public class CreateUserUiTest extends BaseUiTest {
 
     @Test
     @AdminSession

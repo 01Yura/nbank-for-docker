@@ -9,7 +9,7 @@ import ui.pages.AdminPanel;
 import ui.pages.LoginPage;
 import ui.pages.UserDashboard;
 
-public class LoginUserTest extends BaseUiTest {
+public class LoginUserUiTest extends BaseUiTest {
 
     @Test
     @Browsers({"chrome"})

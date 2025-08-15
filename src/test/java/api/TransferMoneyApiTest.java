@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class TransferMoneyTest extends BaseTest {
+public class TransferMoneyApiTest extends BaseApiTest {
 
     static Stream<Arguments> argsFor_userCanTransferMoney() {
         return Stream.of(

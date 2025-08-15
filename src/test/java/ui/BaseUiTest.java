@@ -9,7 +9,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import common.extensions.AdminSessionExtension;
 import common.extensions.BrowserMatchExtension;
 import common.extensions.UserSessionExtension;
-import api.BaseTest;
+import api.BaseApiTest;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +29,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 // проверка CI/CD pipeline1
 
-public class BaseUiTest extends BaseTest {
+public class BaseUiTest extends BaseApiTest {
     @BeforeAll
     static void globalSelenideSetup() {
         Configuration.remote = Config.getProperty("uiRemote");

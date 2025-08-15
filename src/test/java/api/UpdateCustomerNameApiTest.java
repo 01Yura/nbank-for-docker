@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-public class UpdateCustomerNameTest extends BaseTest {
+public class UpdateCustomerNameApiTest extends BaseApiTest {
 
     static Stream<Arguments> argsFor_userCannotChangeTheirNameUsingInvalidName() {
         return Stream.of(

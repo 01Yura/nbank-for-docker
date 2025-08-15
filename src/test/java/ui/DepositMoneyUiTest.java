@@ -14,7 +14,7 @@ import ui.pages.UserDashboard;
 import java.util.List;
 
 
-public class DepositMoneyTest extends BaseUiTest {
+public class DepositMoneyUiTest extends BaseUiTest {
 
     @Test
     @Browsers({"chrome"})

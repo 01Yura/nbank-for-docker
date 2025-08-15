@@ -13,7 +13,7 @@ import ui.pages.UserDashboard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TransferMoneyTest extends BaseUiTest {
+public class TransferMoneyUiTest extends BaseUiTest {
 
     @Test
     @UserSession(2)

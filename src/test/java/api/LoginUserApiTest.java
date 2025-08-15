@@ -10,7 +10,7 @@ import api.specs.ResponseSpecs;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
-public class LoginUserTest extends BaseTest {
+public class LoginUserApiTest extends BaseApiTest {
 
     @Test
     void adminCanLoginWithValidCredentialsAndGetAuthToken() {

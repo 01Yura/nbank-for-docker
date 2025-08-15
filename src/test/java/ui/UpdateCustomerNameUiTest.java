@@ -12,7 +12,7 @@ import ui.pages.UserDashboard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UpdateCustomerNameTest extends BaseUiTest {
+public class UpdateCustomerNameUiTest extends BaseUiTest {
     @Test
     @Browsers({"chrome"})
     @UserSession

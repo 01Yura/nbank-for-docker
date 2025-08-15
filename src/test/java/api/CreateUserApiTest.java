@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-public class CreateUserTest extends BaseTest {
+public class CreateUserApiTest extends BaseApiTest {
 
     static Stream<Arguments> argsFor_AdminCannotCreateUserWithInvalidCredentials() {
         return Stream.of(
