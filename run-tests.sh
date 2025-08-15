@@ -101,6 +101,8 @@ else
 fi
 
 docker run --rm \
+  --network=host \
+  -v "$HOME/.m2:/root/.m2" \
   -v "$PROJECT_DIR/$RUN_DIR/logs:/app/logs" \
   -v "$PROJECT_DIR/$RUN_DIR/reports:/app/target/reports" \
   -v "$PROJECT_DIR/$RUN_DIR/surefire-reports:/app/target/surefire-reports" \
@@ -108,6 +110,7 @@ docker run --rm \
   -e APIBASEURL="$APIBASEURL" \
   -e UIBASEURL="$UIBASEURL" \
   "$IMAGE_NAME"
+
 
 echo "=== Контейнер завершил работу ==="
 
@@ -123,4 +126,4 @@ echo "==================================================="
 echo
 
 read -n 1 -s -r -p "Нажмите любую клавишу для выхода..."
-echo
+echo 

@@ -32,9 +32,9 @@ if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$DOCKERHUB_TOKEN" ] || [ -z "$IMAGE_NAM
 fi
 
 # Сборка Docker-образа
-echo ">>> Сборка Docker-образа $IMAGE_NAME..."
-docker build -t "$IMAGE_NAME" . \
-    || { echo "❌ Ошибка при сборке образа!"; sleep 10; exit 1; }
+echo ">>> Сборка Docker-образа $IMAGE_NAME (host network + BuildKit)..."
+DOCKER_BUILDKIT=1 docker build --network=host -t "$IMAGE_NAME" . \
+  || { echo "❌ Ошибка при сборке образа!"; sleep 10; exit 1; }
 
 # Логин в Docker Hub
 echo ">>> Логин в Docker Hub..."
