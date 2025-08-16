@@ -159,10 +159,17 @@ public class TransferMoneyApiTest extends BaseApiTest {
                         .get()
                         .extract().as(new TypeRef<List<GetCustomerAccountsResponseModel>>() {
                         });
+        // TODO
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         GetCustomerAccountsResponseModel senderAccountAfterTransfer = listFirstUserAccounts.stream()
                 .filter(acc -> acc.getAccountNumber().equals(senderAccount.getAccountNumber()))
-                .findFirst().get();
+                .findFirst().orElseThrow(() -> new AssertionError(
+                "Account " + senderAccount.getAccountNumber() + " not found. "));
 
         //        Take current info about the account of the second user (who is taken money)
         List<GetCustomerAccountsResponseModel> listOfSecondUserAccounts =
