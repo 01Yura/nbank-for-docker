@@ -18,8 +18,8 @@ public class UpdateCustomerNameUiTest extends BaseUiTest {
     @UserSession
     void userCanChangeTheirNameUsingValidName() throws InterruptedException {
 //        STEPS OF TEST:
-//        check that the initial name is "noname" on UI
-        String initialName = "noname";
+//        check that the initial name is "Noname" on UI
+        String initialName = "Noname";
         new UserDashboard().open().getUserNameInfoIcon().shouldHave(Condition.text(initialName));
 
 //        check that the initial name is null on API
@@ -45,7 +45,7 @@ public class UpdateCustomerNameUiTest extends BaseUiTest {
     void userCannotChangeTheirNameUsingInvalidName() throws InterruptedException {
 //        STEPS OF TEST:
 //        check that the initial name is "noname" on UI
-        String initialName = "noname";
+        String initialName = "Noname";
         new UserDashboard().open().getUserNameInfoIcon().shouldHave(Condition.text(initialName));
 
 //        check that the initial name is null on API
