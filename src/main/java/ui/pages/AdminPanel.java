@@ -29,11 +29,16 @@ public class AdminPanel extends BasePage<AdminPanel> {
         return this;
     }
 
-    public List<UserBage> getAllUsers() throws InterruptedException {
+    public List<UserBage> getAllUsers() {
         return StepLogger.log("Get all users from Dashboard", () -> {
             ElementsCollection elementsCollection =
                     $(Selectors.byText("All Users")).shouldBe(Condition.visible).parent().findAll("li");
             return generatePageElements(elementsCollection, UserBage::new);
         });
+    }
+
+    public UserBage findUserByUsername(String username) throws InterruptedException {
+        Thread.sleep(1000);
+        return getAllUsers().stream().filter(userBage -> userBage.getUsername().equals(username)).findAny().orElse(null);
     }
 }

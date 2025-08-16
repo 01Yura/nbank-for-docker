@@ -7,10 +7,14 @@ import api.models.comparison.ModelAssertions;
 import api.requests.steps.AdminSteps;
 import common.annotations.AdminSession;
 import org.junit.jupiter.api.Test;
+import ui.elements.UserBage;
 import ui.pages.AdminPanel;
 import ui.pages.BankAlert;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -24,10 +28,12 @@ public class CreateUserUiTest extends BaseUiTest {
         CreateUserRequestModel user =
                 RandomModelGenerator.generateRandomModel(CreateUserRequestModel.class);
 
-        assertTrue(new AdminPanel().open().createUser(user.getUsername(), user.getPassword())
+        UserBage newUserBage = new AdminPanel().open().createUser(user.getUsername(), user.getPassword())
                 .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY.getMessage())
-                .getAllUsers()
-                .stream().anyMatch(userBage -> userBage.getUsername().equals(user.getUsername())));
+                .findUserByUsername(user.getUsername());
+
+        assertThat(newUserBage).as("UserBage should exist on DashBoard after user creation.")
+                .isNotNull();
 
 //        Check that a user was created on API
         CreateUserResponseModel createdUser =
