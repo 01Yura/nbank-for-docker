@@ -43,6 +43,7 @@ public class UserSteps {
 
     public List<GetCustomerAccountsResponseModel> getAllAccounts() {
         return StepLogger.log("User " + this.username + " get all accounts", () -> {
+            Thread.sleep(1000);
             return new ValidatedCrudRequester<GetCustomerAccountsResponseModel>(
                     RequestSpecs.userSpec(this.username, this.password),
                     ResponseSpecs.responseReturns200Spec(),
