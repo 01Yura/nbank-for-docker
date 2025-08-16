@@ -182,7 +182,8 @@ public class TransferMoneyApiTest extends BaseApiTest {
 
         GetCustomerAccountsResponseModel receiverAccountAfterTransfer = listOfSecondUserAccounts.stream()
                 .filter(acc -> acc.getAccountNumber().equals(receiverAccount.getAccountNumber()))
-                .findFirst().get();
+                .findFirst().orElseThrow(() -> new AssertionError(
+                "Account " + receiverAccount.getAccountNumber() + " not found. "));
 
 //        Check that the amount of money was not changed on both accounts
         softly.assertThat(senderAccountAfterTransfer.getBalance()).isEqualTo(balanceSenderAccountBeforeTransfer.getBalance());
