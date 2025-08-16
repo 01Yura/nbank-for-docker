@@ -32,11 +32,11 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 public class BaseUiTest extends BaseApiTest {
     @BeforeAll
     static void globalSelenideSetup() {
-//        Configuration.remote = Config.getProperty("uiRemote");
+        Configuration.remote = Config.getProperty("uiRemote");
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
-        Configuration.headless = false;
+        Configuration.headless = true;
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
