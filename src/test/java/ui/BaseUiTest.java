@@ -37,6 +37,7 @@ public class BaseUiTest extends BaseApiTest {
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
         Configuration.headless = true;
+        Configuration.timeout = 10_000;
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
@@ -82,4 +83,35 @@ public class BaseUiTest extends BaseApiTest {
     void authAsUser(CreateUserRequestModel createUserRequestModel) {
         authAsUser(createUserRequestModel.getUsername(), createUserRequestModel.getPassword());
     }
+//    Пришлось заккоментировать метод удаления всех пользователей при использовании многопоточности, иначе тесты падали
+/*    @AfterAll
+    public static void deleteAllUsers() {
+        List<CreateUserResponseModel> users = new CrudRequester(RequestSpecs.adminSpec(),
+                ResponseSpecs.responseReturns200Spec(),
+                Endpoint.ADMIN_USERS)
+                .get()
+                .extract().as(new TypeRef<List<CreateUserResponseModel>>() {
+                });
+
+        amountOfAllUsers += users.size();
+
+        for (CreateUserResponseModel user : users) {
+            new CrudRequester(RequestSpecs.adminSpec(),
+                    ResponseSpecs.responseReturns200Spec(),
+                    Endpoint.ADMIN_USERS)
+                    .delete(user.getId());
+        }
+
+        users = new CrudRequester(RequestSpecs.adminSpec(),
+                ResponseSpecs.responseReturns200Spec(),
+                Endpoint.ADMIN_USERS)
+                .get()
+                .extract().as(new TypeRef<List<CreateUserResponseModel>>() {
+                });
+
+        if (users.isEmpty()) {
+            System.out.println("All users after this test have been deleted successfully");
+            System.out.println("Altogether " + amountOfAllUsers + " users have been deleted during this test run");
+        }
+    }*/
 }

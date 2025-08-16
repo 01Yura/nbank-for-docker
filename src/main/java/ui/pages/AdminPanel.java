@@ -38,7 +38,16 @@ public class AdminPanel extends BasePage<AdminPanel> {
     }
 
     public UserBage findUserByUsername(String username) throws InterruptedException {
-        Thread.sleep(1000);
-        return getAllUsers().stream().filter(userBage -> userBage.getUsername().equals(username)).findAny().orElse(null);
+        UserBage userBage = null;
+        int attempts = 0;
+        do {
+            Thread.sleep(1000);
+            userBage = getAllUsers().stream()
+                    .filter(element -> element.getUsername().equals(username))
+                    .findAny().orElse(null);
+            attempts++;
+        }
+        while (userBage == null && attempts <= 3);
+        return userBage;
     }
 }
