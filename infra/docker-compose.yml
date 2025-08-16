@@ -3,7 +3,7 @@
 #
 # Внутри .env укажите абсолютный путь к проекту, например:
 #
-#   HOST_PATH=/home/yura/test/nbank-for-docker
+#   HOST_PATH=/home/yura/nbank-for-docker
 #
 # Для Windows (Git Bash/WSL) укажите путь в формате:
 #
