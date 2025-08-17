@@ -20,6 +20,7 @@
         <allure.version>2.29.1</allure.version>
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <latest-swagger-coverage-version>1.5.0</latest-swagger-coverage-version>
     </properties>
 
     <dependencies>
@@ -96,6 +97,12 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
             <version>${allure.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.viclovsky</groupId>
+            <artifactId>swagger-coverage-rest-assured</artifactId>
+            <version>${latest-swagger-coverage-version}</version>
         </dependency>
     </dependencies>
 

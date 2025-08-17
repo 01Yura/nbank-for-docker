@@ -36,7 +36,7 @@ public class RequestSpecs {
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
 //                кастомный логгер и аллюр логгер
-                .addFilters(List.of(new CustomLoggingFilter(), new AllureRestAssured()));
+                .addFilters(List.of(new CustomLoggingFilter(), new AllureRestAssured(), new SwaggerCoverageRestAssured()));
 //                .addFilters(List.of(
 //                        new RequestLoggingFilter(),
 //                        new ResponseLoggingFilter(),
