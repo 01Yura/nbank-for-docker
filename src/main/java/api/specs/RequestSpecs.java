@@ -5,6 +5,7 @@ import api.configs.CustomLoggingFilter;
 import api.models.LoginUserRequestModel;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.Endpoint;
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
