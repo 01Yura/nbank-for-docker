@@ -1,5 +1,6 @@
 package api.requests.skeleton.requesters;
 
+import api.configs.Config;
 import api.models.BaseModel;
 import api.requests.skeleton.interfaces.CrudEndpointInterface;
 import api.requests.skeleton.interfaces.GetAllEndpointsInterface;
@@ -24,6 +25,8 @@ CrudRequester — это фасад над REST Assured, который:
  - проверять JSON, XML, текст и т.д.
 * */
 public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointsInterface {
+    private final static String API_VERSION = Config.getProperty("apiVersion");
+
     public CrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, Endpoint endpoint) {
         super(requestSpecification, responseSpecification, endpoint);
     }
@@ -35,7 +38,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         return given()
                 .spec(requestSpecification)
                 .when()
-                .get(endpoint.getUrl())
+                .get(API_VERSION + endpoint.getUrl())
                 .then()
                 .spec(responseSpecification);
     }
@@ -48,7 +51,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
                 .spec(requestSpecification)
                 .body(model)
                 .when()
-                .put(endpoint.getUrl())
+                .put(API_VERSION + endpoint.getUrl())
                 .then()
                 .spec(responseSpecification);
     }
@@ -64,7 +67,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
 
             return request
                     .when()
-                    .post(endpoint.getUrl())
+                    .post(API_VERSION + endpoint.getUrl())
                     .then()
                     .spec(responseSpecification);
         });
@@ -77,7 +80,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         return given()
                 .spec(requestSpecification)
                 .when()
-                .delete(endpoint.getUrl() + "/" + id)
+                .delete(API_VERSION + endpoint.getUrl() + "/" + id)
                 .then()
                 .spec(responseSpecification);
     }
@@ -88,7 +91,7 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface,
         return given()
                 .spec(requestSpecification)
                 .when()
-                .get(endpoint.getUrl())
+                .get(API_VERSION + endpoint.getUrl())
                 .then()
                 .spec(responseSpecification);
     }

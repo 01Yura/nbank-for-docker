@@ -45,26 +45,26 @@ public class BaseUiTest extends BaseApiTest {
 //    Использую BeforeEach и AfterEach чтобы после каждого теста закрывать сессию и чтобы на каждый тест открывалась
 //    новая сессия (открывается новый контейнер и соответственно новый браузер) для того, чтобы каждый тест имел своё
 //    уникальное имя (это нужно для записи видео с уникальными именами по названию класса тестов)
-    @BeforeEach
-    void setupVideoName(TestInfo testInfo) {
-        // Форматируем текущий timestamp
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm"));
+@BeforeEach
+void setupVideoName(TestInfo testInfo) {
+    String ts = java.time.LocalDateTime.now()
+            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS"));
 
-        // Формируем имя видео с датой
-        String videoName = testInfo.getTestClass().get().getSimpleName()
-                + "_" + testInfo.getDisplayName().replace("()", "")
-                + "_" + timestamp
-                + ".mp4";
+    String cls = testInfo.getTestClass().map(Class::getSimpleName).orElse("Test");
+    String name = testInfo.getDisplayName().replaceAll("[^A-Za-z0-9._-]+", "_");
 
-        Configuration.browserCapabilities.setCapability("selenoid:options",
-                Map.of(
-                        "enableVNC", true,
-                        "enableLog", true,
-                        "enableVideo", true,
-                        "videoName", videoName
-                )
-        );
-    }
+    String videoName = cls + "_" + name + "_" + ts + ".mp4";
+
+    com.codeborne.selenide.Configuration.browserCapabilities.setCapability(
+            "selenoid:options",
+            java.util.Map.of(
+                    "enableVNC", true,
+                    "enableLog", true,
+                    "enableVideo", true,
+                    "videoName", videoName
+            )
+    );
+}
 
 
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя по имени класса теста

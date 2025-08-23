@@ -33,10 +33,10 @@ public class RequestSpecs {
 
     private static RequestSpecBuilder defaultRequestSpecBuilder() {
         return new RequestSpecBuilder()
-                .setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"))
+                .setBaseUri(Config.getProperty("apiBaseUrl"))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-//                кастомный логгер и аллюр логгер
+//                кастомный логгер и аллюр логгер и логгер который считает Swagger Coverage
                 .addFilters(List.of(new CustomLoggingFilter(), new AllureRestAssured(), new SwaggerCoverageRestAssured()));
 //                .addFilters(List.of(
 //                        new RequestLoggingFilter(),
