@@ -1,5 +1,6 @@
 package ui;
 
+import api.BaseApiTest;
 import api.configs.Config;
 import api.models.CreateUserRequestModel;
 import api.specs.RequestSpecs;
@@ -9,7 +10,6 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import common.extensions.AdminSessionExtension;
 import common.extensions.BrowserMatchExtension;
 import common.extensions.UserSessionExtension;
-import api.BaseApiTest;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,8 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.executeJavaScript;
@@ -36,38 +35,48 @@ public class BaseUiTest extends BaseApiTest {
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
-        Configuration.headless = true;
+        Configuration.headless = false;
         Configuration.timeout = 10_000;
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("enableVNC", true);
+        options.put("enableLog", true);
+        options.put("enableVideo", true);
+
+        Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
 
-//    Использую BeforeEach и AfterEach чтобы после каждого теста закрывать сессию и чтобы на каждый тест открывалась
+    //    Использую BeforeEach и AfterEach чтобы после каждого теста закрывать сессию и чтобы на каждый тест открывалась
 //    новая сессия (открывается новый контейнер и соответственно новый браузер) для того, чтобы каждый тест имел своё
 //    уникальное имя (это нужно для записи видео с уникальными именами по названию класса тестов)
-@BeforeEach
-void setupVideoName(TestInfo testInfo) {
-    String ts = java.time.LocalDateTime.now()
-            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS"));
+//    @BeforeEach
+//    void setupVideoName(TestInfo testInfo) {
+//        String ts = java.time.LocalDateTime.now()
+//                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS"));
+//
+//        String cls = testInfo.getTestClass().map(Class::getSimpleName).orElse("Test");
+//        String name = testInfo.getDisplayName().replaceAll("[^A-Za-z0-9._-]+", "_");
+//
+//        String videoName = cls + "_" + name + "_" + ts + ".mp4";
+//
+//        // достаём существующую map
+//        Map<String, Object> options = (Map<String, Object>)
+//                Configuration.browserCapabilities.getCapability("selenoid:options");
+//
+//        if (options == null) {
+//            options = new HashMap<>();
+//        }
+//
+//        // добавляем имя видео
+//        options.put("videoName", videoName);
+//
+//        // кладём обратно в capabilities
+//        Configuration.browserCapabilities.setCapability("selenoid:options", options);
+//    }
 
-    String cls = testInfo.getTestClass().map(Class::getSimpleName).orElse("Test");
-    String name = testInfo.getDisplayName().replaceAll("[^A-Za-z0-9._-]+", "_");
-
-    String videoName = cls + "_" + name + "_" + ts + ".mp4";
-
-    com.codeborne.selenide.Configuration.browserCapabilities.setCapability(
-            "selenoid:options",
-            java.util.Map.of(
-                    "enableVNC", true,
-                    "enableLog", true,
-                    "enableVideo", true,
-                    "videoName", videoName
-            )
-    );
-}
-
-
-    //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя по имени класса теста
+    //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя
     @AfterEach
     void tearDown() {
         Selenide.closeWebDriver();
