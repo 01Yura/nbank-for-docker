@@ -16,7 +16,7 @@ import api.requests.skeleton.interfaces.GeneratingRule;
 public class CreateUserRequestModel extends BaseModel {
     @GeneratingRule(regex = "^[A-Za-z0-9]{3,15}$")
     private String username;
-    @GeneratingRule(regex = "^[A-Z]{3,5}[a-z]{3,5}[0-9]{3,5}[!@#$%^&*]{3,5}$")
+    @GeneratingRule(regex = "^[A-Z]{3,5}[a-z]{3,5}[0-9]{3,5}[!@#$%^&]{3,5}$")
     private String password;
     @GeneratingRule(regex = "^USER$")
     private String role;
