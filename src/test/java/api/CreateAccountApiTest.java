@@ -56,5 +56,6 @@ public class CreateAccountApiTest extends BaseApiTest {
         softly.assertThat(createAccountResponseModel.getAccountNumber()).isEqualTo(account.getAccountNumber());
         softly.assertThat(account.getBalance()).isZero();
         softly.assertThat(account.getTransactions().size()).isZero();
+
     }
 }
