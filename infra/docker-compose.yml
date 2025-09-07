@@ -1,0 +1,50 @@
+# ============================================================================
+# ВАЖНО: Перед запуском создайте файл .env рядом с этим docker-compose.yml
+#
+# Внутри .env укажите абсолютный путь к проекту, например:
+# HOST_PATH=/home/yura/nbank-for-docker
+#
+# Для Windows (Git Bash/WSL) укажите путь в формате:
+# HOST_PATH=C:/Users/Yura/nbank
+#
+# Docker Compose подставит ${HOST_PATH} во все тома (volumes).
+# ============================================================================
+
+services:
+  backend:
+    image: nobugsme/nbank:with_database
+    platform: linux/arm64
+    ports:
+      - "4111:4111"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/nbank
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+    depends_on:
+      - postgres
+    networks:
+      - nbank-network
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=nbank
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ${HOST_PATH}/infra/postgres_data:/var/lib/postgresql/data
+      - ${HOST_PATH}/infra/init-scripts:/docker-entrypoint-initdb.d:ro
+    networks:
+      - nbank-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nbank"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  nbank-network:
+    name: nbank-network
