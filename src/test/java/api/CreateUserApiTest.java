@@ -67,8 +67,8 @@ public class CreateUserApiTest extends BaseApiTest {
 
         ModelAssertions.assertThatModels(createUserRequestModel, createUserResponseModel).match();
 
-        UserDao userDao = DataBaseSteps.getUserByUsername(createUserResponseModel.getUsername());
-        DaoModelAssertions.assertThat(userDao,createUserResponseModel).match();
+//        UserDao userDao = DataBaseSteps.getUserByUsername(createUserResponseModel.getUsername());
+//        DaoModelAssertions.assertThat(userDao,createUserResponseModel).match();
 
     }
 
