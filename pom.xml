@@ -104,6 +104,12 @@
             <artifactId>swagger-coverage-rest-assured</artifactId>
             <version>${latest-swagger-coverage-version}</version>
         </dependency>
+        <!-- PostgreSQL Driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.4</version>
+        </dependency>
     </dependencies>
 
     <profiles>

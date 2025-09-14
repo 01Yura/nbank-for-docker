@@ -1,5 +1,6 @@
 package api;
 
+import api.dao.UserDao;
 import api.generators.RandomModelGenerator;
 import api.models.CreateUserRequestModel;
 import api.models.CreateUserResponseModel;
@@ -8,6 +9,7 @@ import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.Endpoint;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.requests.steps.AdminSteps;
+import api.requests.steps.DataBaseSteps;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 import org.junit.jupiter.api.Test;
@@ -56,7 +58,7 @@ public class CreateUserApiTest extends BaseApiTest {
 
 
     @Test
-    void adminCanCreateUserWithValidCredentials() {
+    void adminCanCreateUserWithValidCredentials() throws InterruptedException {
         CreateUserRequestModel createUserRequestModel = RandomModelGenerator.generateRandomModel(CreateUserRequestModel.class);
 
         CreateUserResponseModel createUserResponseModel = new ValidatedCrudRequester<CreateUserResponseModel>(RequestSpecs.adminSpec(), ResponseSpecs.responseReturns201Spec(), Endpoint.ADMIN_USERS)
@@ -64,9 +66,11 @@ public class CreateUserApiTest extends BaseApiTest {
 
         ModelAssertions.assertThatModels(createUserRequestModel, createUserResponseModel).match();
 
-//        softly.assertThat(createUserResponseModel.getUsername()).isEqualTo(createUserRequestModel.getUsername());
-//        softly.assertThat(createUserResponseModel.getPassword()).isNotEqualTo(createUserRequestModel.getPassword());
-//        softly.assertThat(createUserResponseModel.getRole()).isEqualTo(createUserRequestModel.getRole());
+        UserDao userDao = DataBaseSteps.getUserByUsername(createUserResponseModel.getUsername());
+        System.out.println(userDao.getUsername());
+        System.out.println(userDao.getId());
+        System.out.println(userDao.getRole());
+        System.out.println(userDao.getPassword());
     }
 
 
