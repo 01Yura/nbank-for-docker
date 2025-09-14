@@ -1,6 +1,7 @@
 package api;
 
 import api.dao.UserDao;
+import api.dao.comparison.DaoModelAssertions;
 import api.generators.RandomModelGenerator;
 import api.models.CreateUserRequestModel;
 import api.models.CreateUserResponseModel;
@@ -67,10 +68,8 @@ public class CreateUserApiTest extends BaseApiTest {
         ModelAssertions.assertThatModels(createUserRequestModel, createUserResponseModel).match();
 
         UserDao userDao = DataBaseSteps.getUserByUsername(createUserResponseModel.getUsername());
-        System.out.println(userDao.getUsername());
-        System.out.println(userDao.getId());
-        System.out.println(userDao.getRole());
-        System.out.println(userDao.getPassword());
+        DaoModelAssertions.assertThat(userDao,createUserResponseModel).match();
+
     }
 
 

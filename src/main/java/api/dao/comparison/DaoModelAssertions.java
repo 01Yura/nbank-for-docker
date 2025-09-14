@@ -20,7 +20,7 @@ public class DaoModelAssertions extends AbstractAssert<DaoModelAssertions, Objec
         this.model = model;
     }
 
-    public static DaoModelAssertions assertThatDaoModel(Object daoModel, Object model) {
+    public static DaoModelAssertions assertThat(Object daoModel, Object model) {
         return new DaoModelAssertions(daoModel, model);
     }
 
