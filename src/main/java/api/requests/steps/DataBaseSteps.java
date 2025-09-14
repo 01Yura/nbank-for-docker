@@ -21,10 +21,10 @@ public class DataBaseSteps {
         ACCOUNTS("accounts"),
         TRANSACTIONS("transactions");
 
-        private final String name;
+        private final String table;
 
-        Table(String name) { this.name = name; }
-        public String getName() { return name; }
+        Table(String table) { this.table = table; }
+        public String getTable() { return table; }
     }
 
     /* ======================= USERS ======================= */
@@ -34,7 +34,7 @@ public class DataBaseSteps {
             "Get user from database by username: " + username,
             () -> DBRequest.builder()
                     .requestType(DBRequest.RequestType.SELECT)
-                    .table(Table.CUSTOMERS.getName())
+                    .table(Table.CUSTOMERS.getTable())
                     .where(Condition.equalTo("username", username))
                     .extractAs(UserDao.class)
         );
@@ -45,7 +45,7 @@ public class DataBaseSteps {
             "Get user from database by ID: " + id,
             () -> DBRequest.builder()
                     .requestType(DBRequest.RequestType.SELECT)
-                    .table(Table.CUSTOMERS.getName())
+                    .table(Table.CUSTOMERS.getTable())
                     .where(Condition.equalTo("id", id))
                     .extractAs(UserDao.class)
         );
@@ -56,7 +56,7 @@ public class DataBaseSteps {
             "Get user from database by role: " + role,
             () -> DBRequest.builder()
                     .requestType(DBRequest.RequestType.SELECT)
-                    .table(Table.CUSTOMERS.getName())
+                    .table(Table.CUSTOMERS.getTable())
                     .where(Condition.equalTo("role", role))
                     .extractAs(UserDao.class)
         );
@@ -71,7 +71,7 @@ public class DataBaseSteps {
             "Get all users from database",
             () -> {
                 // Для получения списка нужно использовать прямой SQL запрос
-                String sql = "SELECT * FROM " + Table.CUSTOMERS.getName();
+                String sql = "SELECT * FROM " + Table.CUSTOMERS.getTable();
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql);
                      java.sql.ResultSet resultSet = statement.executeQuery()) {
@@ -101,7 +101,7 @@ public class DataBaseSteps {
             "Get account from database by account number: " + accountNumber,
             () -> DBRequest.builder()
                     .requestType(DBRequest.RequestType.SELECT)
-                    .table(Table.ACCOUNTS.getName())
+                    .table(Table.ACCOUNTS.getTable())
                     .where(Condition.equalTo("account_number", accountNumber))
                     .extractAs(AccountDao.class)
         );
@@ -112,7 +112,7 @@ public class DataBaseSteps {
             "Get account from database by ID: " + id,
             () -> DBRequest.builder()
                     .requestType(DBRequest.RequestType.SELECT)
-                    .table(Table.ACCOUNTS.getName())
+                    .table(Table.ACCOUNTS.getTable())
                     .where(Condition.equalTo("id", id))
                     .extractAs(AccountDao.class)
         );
@@ -123,7 +123,7 @@ public class DataBaseSteps {
             "Get account from database by customer ID: " + customerId,
             () -> DBRequest.builder()
                     .requestType(DBRequest.RequestType.SELECT)
-                    .table(Table.ACCOUNTS.getName())
+                    .table(Table.ACCOUNTS.getTable())
                     .where(Condition.equalTo("customer_id", customerId))
                     .extractAs(AccountDao.class)
         );
@@ -137,7 +137,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Get all accounts from database",
             () -> {
-                String sql = "SELECT * FROM " + Table.ACCOUNTS.getName();
+                String sql = "SELECT * FROM " + Table.ACCOUNTS.getTable();
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql);
                      java.sql.ResultSet resultSet = statement.executeQuery()) {
@@ -168,7 +168,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Get all accounts for customer ID: " + customerId,
             () -> {
-                String sql = "SELECT * FROM " + Table.ACCOUNTS.getName() + " WHERE customer_id = ?";
+                String sql = "SELECT * FROM " + Table.ACCOUNTS.getTable() + " WHERE customer_id = ?";
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql)) {
                     
@@ -203,7 +203,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Get all transactions from database",
             () -> {
-                String sql = "SELECT * FROM " + Table.TRANSACTIONS.getName();
+                String sql = "SELECT * FROM " + Table.TRANSACTIONS.getTable();
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql);
                      java.sql.ResultSet resultSet = statement.executeQuery()) {
@@ -236,7 +236,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Get transactions for account ID: " + accountId,
             () -> {
-                String sql = "SELECT * FROM " + Table.TRANSACTIONS.getName() + " WHERE account_id = ? OR related_account_id = ?";
+                String sql = "SELECT * FROM " + Table.TRANSACTIONS.getTable() + " WHERE account_id = ? OR related_account_id = ?";
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql)) {
                     
@@ -274,7 +274,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Update account balance in database for account ID: " + accountId + " to: " + newBalance,
             () -> {
-                String sql = "UPDATE " + Table.ACCOUNTS.getName() + " SET balance = ? WHERE id = ?";
+                String sql = "UPDATE " + Table.ACCOUNTS.getTable() + " SET balance = ? WHERE id = ?";
 
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -299,7 +299,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Update user name in database for user ID: " + userId + " to: " + newName,
             () -> {
-                String sql = "UPDATE " + Table.CUSTOMERS.getName() + " SET name = ? WHERE id = ?";
+                String sql = "UPDATE " + Table.CUSTOMERS.getTable() + " SET name = ? WHERE id = ?";
 
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -338,7 +338,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Check if user exists: " + username,
             () -> {
-                String sql = "SELECT COUNT(*) FROM " + Table.CUSTOMERS.getName() + " WHERE username = ?";
+                String sql = "SELECT COUNT(*) FROM " + Table.CUSTOMERS.getTable() + " WHERE username = ?";
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql)) {
                     
@@ -365,7 +365,7 @@ public class DataBaseSteps {
         return StepLogger.log(
             "Check if account exists: " + accountNumber,
             () -> {
-                String sql = "SELECT COUNT(*) FROM " + Table.ACCOUNTS.getName() + " WHERE account_number = ?";
+                String sql = "SELECT COUNT(*) FROM " + Table.ACCOUNTS.getTable() + " WHERE account_number = ?";
                 try (Connection connection = getConnection();
                      PreparedStatement statement = connection.prepareStatement(sql)) {
                     
