@@ -1,0 +1,73 @@
+# ============================================================================
+# ВАЖНО: Перед запуском создайте файл .env рядом с этим docker-compose.yml
+#
+# Внутри .env укажите абсолютный путь к проекту, например:
+# HOST_PATH=/home/yura/nbank-for-docker
+#
+# Для Windows (Git Bash/WSL) укажите путь в формате:
+# HOST_PATH=C:/Users/Yura/nbank
+#
+# Docker Compose подставит ${HOST_PATH} во все тома (volumes).
+# ============================================================================
+
+services:
+  backend:
+    image: nobugsme/nbank:with_username_error_fix
+    ports:
+      - "4111:4111"
+    networks:
+      - nbank-network
+
+  frontend:
+    image: nobugsme/nbank-ui:with_nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - nbank-network
+
+  selenoid:
+    image: aerokube/selenoid
+    ports:
+      - "4444:4444"
+    volumes:
+      - ${HOST_PATH}/infra/config:/etc/selenoid:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOST_PATH}/selenoid_reports/video:/opt/selenoid/video
+      - ${HOST_PATH}/selenoid_reports/logs:/opt/selenoid/logs
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/selenoid_reports/video
+    command:
+      [
+        "-container-network",
+        "nbank-network",
+        "-conf",
+        "/etc/selenoid/browsers.json",
+        "-video-output-dir",
+        "/opt/selenoid/video",
+        "-log-output-dir",
+        "/opt/selenoid/logs"
+      ]
+    networks:
+      - nbank-network
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui
+    ports:
+      - "8080:8080"
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+    depends_on:
+      - selenoid
+    networks:
+      - nbank-network
+
+  # Этот контейнер тоже надо запускать, но зачем не понятно, иначе ошибка
+  selenoid-video-recorder:
+    image: selenoid/video-recorder:latest-release
+    networks:
+      - nbank-network
+
+networks:
+  nbank-network:
+    name: nbank-network

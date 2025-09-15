@@ -12,61 +12,39 @@
 
 services:
   backend:
-    image: nobugsme/nbank:with_username_error_fix
+    image: nobugsme/nbank:with_database
+    platform: linux/arm64
     ports:
       - "4111:4111"
-    networks:
-      - nbank-network
-
-  frontend:
-    image: nobugsme/nbank-ui:with_nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    networks:
-      - nbank-network
-
-  selenoid:
-    image: aerokube/selenoid
-    ports:
-      - "4444:4444"
-    volumes:
-      - ${HOST_PATH}/infra/config:/etc/selenoid:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${HOST_PATH}/selenoid_reports/video:/opt/selenoid/video
-      - ${HOST_PATH}/selenoid_reports/logs:/opt/selenoid/logs
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=${HOST_PATH}/selenoid_reports/video
-    command:
-      [
-        "-container-network",
-        "nbank-network",
-        "-conf",
-        "/etc/selenoid/browsers.json",
-        "-video-output-dir",
-        "/opt/selenoid/video",
-        "-log-output-dir",
-        "/opt/selenoid/logs"
-      ]
-    networks:
-      - nbank-network
-
-  selenoid-ui:
-    image: aerokube/selenoid-ui
-    ports:
-      - "8080:8080"
-    command: ["--selenoid-uri", "http://selenoid:4444"]
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/nbank
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
     depends_on:
-      - selenoid
+      postgres:
+        condition: service_healthy
     networks:
       - nbank-network
 
-  # Этот контейнер тоже надо запускать, но зачем не понятно, иначе ошибка
-  selenoid-video-recorder:
-    image: selenoid/video-recorder:latest-release
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=nbank
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ${HOST_PATH}/postgres-data:/var/lib/postgresql/data
+      - ${HOST_PATH}/infra/init-scripts:/docker-entrypoint-initdb.d:ro
     networks:
       - nbank-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nbank"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   nbank-network:
