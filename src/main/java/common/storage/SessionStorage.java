@@ -1,11 +1,13 @@
 package common.storage;
 
 import api.models.CreateUserRequestModel;
+import api.models.CreateAccountResponseModel;
 import api.requests.steps.UserSteps;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SessionStorage {
 //    Для внедрения многопоточности нужно обернуть SessionStorage в ThreadLocal
@@ -16,6 +18,7 @@ public class SessionStorage {
     private static final ThreadLocal<SessionStorage> INSTANCE = ThreadLocal.withInitial(SessionStorage::new);
 
     private final LinkedHashMap<CreateUserRequestModel, UserSteps> userStepsMap = new LinkedHashMap<>();
+    private final LinkedHashMap<CreateUserRequestModel, List<CreateAccountResponseModel>> userAccountsMap = new LinkedHashMap<>();
 
     private SessionStorage(){};
 
@@ -23,6 +26,10 @@ public class SessionStorage {
         for (CreateUserRequestModel user : users) {
             INSTANCE.get().userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
         }
+    }
+
+    public static void addAccounts(Map<CreateUserRequestModel, List<CreateAccountResponseModel>> userToAccounts){
+        INSTANCE.get().userAccountsMap.putAll(userToAccounts);
     }
 
     /**
@@ -50,6 +57,20 @@ public class SessionStorage {
 
     public static void clearStorage(){
         INSTANCE.get().userStepsMap.clear();
+        INSTANCE.get().userAccountsMap.clear();
+    }
+
+    public static List<CreateAccountResponseModel> getAccounts(int userNumber){
+        CreateUserRequestModel user = getUser(userNumber);
+        return INSTANCE.get().userAccountsMap.get(user);
+    }
+
+    public static CreateAccountResponseModel getAccount(int userNumber, int accountNumber){
+        return getAccounts(userNumber).get(accountNumber-1);
+    }
+
+    public static CreateAccountResponseModel getFirstAccount(int userNumber){
+        return getAccount(userNumber, 1);
     }
 
 }

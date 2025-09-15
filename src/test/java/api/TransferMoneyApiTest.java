@@ -8,6 +8,8 @@ import api.requests.steps.AdminSteps;
 import api.requests.steps.UserSteps;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import common.annotations.UsersWithAccounts;
+import common.storage.SessionStorage;
 import io.restassured.common.mapper.TypeRef;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,20 +43,29 @@ public class TransferMoneyApiTest extends BaseApiTest {
         );
     }
 
-
+    @UsersWithAccounts(users = 2, accountsPerUser = 1, auth = 1, uiAuth = false)
     @ParameterizedTest
     @MethodSource("argsFor_userCanTransferMoney")
     void userCanTransferMoney(Float transferAmount, Float depositPerCycle, Float depositThreshold, Float expectedAmount) {
-//        Create a first user + account + deposit money until the balance is enough for a successful transfer
-        CreateUserRequestModel userSender = AdminSteps.createUser();
-        UserSteps userSenderSteps = new UserSteps(userSender.getUsername(), userSender.getPassword());
-        CreateAccountResponseModel senderAccount = userSenderSteps.createAccount();
+////        Create a first user + account + deposit money until the balance is enough for a successful transfer
+//        CreateUserRequestModel userSender = AdminSteps.createUser();
+//        UserSteps userSenderSteps = new UserSteps(userSender.getUsername(), userSender.getPassword());
+//        CreateAccountResponseModel senderAccount = userSenderSteps.createAccount();
+//        UserDepositMoneyResponseModel balanceSenderAccountBeforeTransfer = userSenderSteps.depositMoney(depositPerCycle, depositThreshold);
+//
+////        Create a second user + account
+//        CreateUserRequestModel userReceiver = AdminSteps.createUser();
+//        UserSteps userReceiverSteps = new UserSteps(userReceiver.getUsername(), userReceiver.getPassword());
+//        CreateAccountResponseModel receiverAccount= userReceiverSteps.createAccount();
+
+        CreateUserRequestModel userSender = SessionStorage.getUser(1);
+        UserSteps userSenderSteps = SessionStorage.getSteps(1);
+        CreateAccountResponseModel senderAccount = SessionStorage.getAccount(1, 1);
         UserDepositMoneyResponseModel balanceSenderAccountBeforeTransfer = userSenderSteps.depositMoney(depositPerCycle, depositThreshold);
 
-//        Create a second user + account
-        CreateUserRequestModel userReceiver = AdminSteps.createUser();
-        UserSteps userReceiverSteps = new UserSteps(userReceiver.getUsername(), userReceiver.getPassword());
-        CreateAccountResponseModel receiverAccount= userReceiverSteps.createAccount();
+        CreateUserRequestModel userReceiver = SessionStorage.getUser(2);
+        UserSteps userReceiverSteps = SessionStorage.getSteps(2);
+        CreateAccountResponseModel receiverAccount = SessionStorage.getAccount(2, 1);
 
 
 //        Transfer money
@@ -135,7 +146,7 @@ public class TransferMoneyApiTest extends BaseApiTest {
 //        Create a second user + account
         CreateUserRequestModel userReceiver = AdminSteps.createUser();
         UserSteps userReceiverSteps = new UserSteps(userReceiver.getUsername(), userReceiver.getPassword());
-        CreateAccountResponseModel receiverAccount= userReceiverSteps.createAccount();
+        CreateAccountResponseModel receiverAccount = userReceiverSteps.createAccount();
 
 //        Transfer money
         TransferMoneyRequestModel model = TransferMoneyRequestModel.builder()
@@ -169,7 +180,7 @@ public class TransferMoneyApiTest extends BaseApiTest {
         GetCustomerAccountsResponseModel senderAccountAfterTransfer = listFirstUserAccounts.stream()
                 .filter(acc -> acc.getAccountNumber().equals(senderAccount.getAccountNumber()))
                 .findFirst().orElseThrow(() -> new AssertionError(
-                "Account " + senderAccount.getAccountNumber() + " not found. "));
+                        "Account " + senderAccount.getAccountNumber() + " not found. "));
 
         //        Take current info about the account of the second user (who is taken money)
         List<GetCustomerAccountsResponseModel> listOfSecondUserAccounts =
@@ -183,7 +194,7 @@ public class TransferMoneyApiTest extends BaseApiTest {
         GetCustomerAccountsResponseModel receiverAccountAfterTransfer = listOfSecondUserAccounts.stream()
                 .filter(acc -> acc.getAccountNumber().equals(receiverAccount.getAccountNumber()))
                 .findFirst().orElseThrow(() -> new AssertionError(
-                "Account " + receiverAccount.getAccountNumber() + " not found. "));
+                        "Account " + receiverAccount.getAccountNumber() + " not found. "));
 
 //        Check that the amount of money was not changed on both accounts
         softly.assertThat(senderAccountAfterTransfer.getBalance()).isEqualTo(balanceSenderAccountBeforeTransfer.getBalance());
