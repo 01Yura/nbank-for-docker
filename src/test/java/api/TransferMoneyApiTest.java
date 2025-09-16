@@ -58,11 +58,15 @@ public class TransferMoneyApiTest extends BaseApiTest {
 //        UserSteps userReceiverSteps = new UserSteps(userReceiver.getUsername(), userReceiver.getPassword());
 //        CreateAccountResponseModel receiverAccount= userReceiverSteps.createAccount();
 
+//        Этот блок кода я написал вмето того, который вверху, так как использую аннотацию @UsersWithAccounts, чтобы
+//        сделать предшаги вне теста, хотя строк столько же.
+//        Create a first user + account + deposit money until the balance is enough for a successful transfer
         CreateUserRequestModel userSender = SessionStorage.getUser(1);
         UserSteps userSenderSteps = SessionStorage.getSteps(1);
         CreateAccountResponseModel senderAccount = SessionStorage.getAccount(1, 1);
         UserDepositMoneyResponseModel balanceSenderAccountBeforeTransfer = userSenderSteps.depositMoney(depositPerCycle, depositThreshold);
 
+//        Create a second user + account
         CreateUserRequestModel userReceiver = SessionStorage.getUser(2);
         UserSteps userReceiverSteps = SessionStorage.getSteps(2);
         CreateAccountResponseModel receiverAccount = SessionStorage.getAccount(2, 1);
