@@ -34,7 +34,7 @@ public class BaseUiTest extends BaseApiTest {
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browserSize");
         Configuration.headless = false;
-//        Configuration.timeout = 10_000;
+        Configuration.timeout = 10_000;
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
