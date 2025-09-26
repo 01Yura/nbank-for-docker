@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [push, workflow_dispatch]
+on: [ push, workflow_dispatch ]
 
 jobs:
   run-tests:
@@ -13,8 +13,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "21"
+          distribution: 'temurin'
+          java-version: '21'
 
       - name: Cache Maven repository
         uses: actions/cache@v4
@@ -32,60 +32,21 @@ jobs:
           cat infra/.env
 
       - name: Set up services
-        run: |
-          cd infra
-          chmod +x ./start-docker-compose.sh
-          ./start-docker-compose.sh
-          cd ..
+        run: cd infra && ./start-docker-compose.sh && cd ..
 
-      - name: Wait for services to be ready
+      - name: Detect runner IP
+        id: runner_ip
         run: |
-          echo "Waiting for backend API..."
-          timeout 60 bash -c 'until curl -f http://localhost:4111/actuator/health; do sleep 2; done'
-          echo "Waiting for frontend..."
-          timeout 60 bash -c 'until curl -f http://localhost:80; do sleep 2; done'
-          echo "Waiting for Selenoid..."
-          timeout 60 bash -c 'until curl -f http://localhost:4444/status; do sleep 2; done'
+          ip=$(hostname -I | awk '{print $1}')
+          echo "Runner IP is: $ip"
+          echo "ip=$ip" >> $GITHUB_OUTPUT
 
       - name: Run tests
         run: ./mvnw clean test -q
         env:
           APIBASEURL: http://localhost:4111
-          UIBASEURL: http://localhost:80
+          UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:80
           UIREMOTE: http://localhost:4444/wd/hub
-
-      - name: Run Swagger coverage
-        if: always()
-        run: .swagger-coverage-commandline-1.5.0/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i ./target/swagger-coverage-output
-
-      - name: Load test report history
-        uses: actions/checkout@v4
-        if: always()
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
-        with:
-          gh_pages: gh-pages
-          allure_results: target/allure-results
-          allure_history: allure-history
-
-      - name: Build swagger coverage report
-        if: always()
-        run: |
-          mkdir -p allure-history/${{ github.run_number }}
-          cp swagger-coverage-report.html allure-history/${{ github.run_number }}/ || echo "Swagger coverage report not found"
-
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v4
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
 
       - name: Notify on success
         if: success()
