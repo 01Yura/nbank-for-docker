@@ -5,15 +5,20 @@ import api.configs.CustomLoggingFilter;
 import api.models.LoginUserRequestModel;
 import api.requests.skeleton.requesters.CrudRequester;
 import api.requests.skeleton.requesters.Endpoint;
+import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
+
 /*
 🔹 RequestSpecification (RequestSpec)
 Это шаблон для всех запросов: хедеры, content type, базовый URL, фильтры, авторизация и т.п.
@@ -37,7 +42,8 @@ public class RequestSpecs {
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
 //                кастомный логгер и аллюр логгер и логгер который считает Swagger Coverage
-                .addFilters(List.of(new CustomLoggingFilter(), new AllureRestAssured(), new SwaggerCoverageRestAssured()));
+                .addFilters(List.of(new CustomLoggingFilter(), new AllureRestAssured(),
+                        new SwaggerCoverageRestAssured(new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))));
 //                .addFilters(List.of(
 //                        new RequestLoggingFilter(),
 //                        new ResponseLoggingFilter(),
