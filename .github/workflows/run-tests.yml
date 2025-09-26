@@ -79,10 +79,6 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
-      - name: Stop containers
-        if: always()
-        run: docker-compose down -v
-
       - name: Notify on success
         if: success()
         run: |
