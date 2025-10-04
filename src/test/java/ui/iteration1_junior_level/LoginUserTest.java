@@ -17,7 +17,7 @@ public class LoginUserTest {
     static void setupSelenoid() {
 //        Configuration.remote = "http://192.168.0.118:32362/wd/hub";                  // c Moon
 //        Configuration.remote = "http://192.168.0.127:4444/wd/hub";                     // вариант без Moon, обычныйSelenoid
-        Configuration.baseUrl = "http://192.168.0.22:3000";
+        Configuration.baseUrl = "http://192.168.0.127";
         Configuration.browser = "chrome";
         Configuration.browserSize = "1920x1080";
 
