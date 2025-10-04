@@ -23,7 +23,7 @@ public class CreateUserTest {
     @BeforeAll
     static void setupSelenoid() {
 //        Configuration.remote = "http://192.168.0.127:4444/wd/hub";
-        Configuration.baseUrl = "http://192.168.0.22:3000";
+        Configuration.baseUrl = "http://192.168.0.127";
         Configuration.browser = "chrome";
         Configuration.browserSize = "1920x1080";
 
@@ -72,7 +72,7 @@ public class CreateUserTest {
         List<CreateUserResponseModel> users = given()
                 .spec(RequestSpecs.adminSpec())
                 .when()
-                .get("http://localhost:4111/api/v1/admin/users")
+                .get("http://192.168.0.127:4111/api/v1/admin/users")
                 .then()
                 .statusCode(200)
                 .extract().as(new TypeRef<List<CreateUserResponseModel>>() {
@@ -123,7 +123,7 @@ public class CreateUserTest {
         List<CreateUserResponseModel> users = given()
                 .spec(RequestSpecs.adminSpec())
                 .when()
-                .get("http://localhost:4111/api/v1/admin/users")
+                .get("http://192.168.0.127:4111/api/v1/admin/users")
                 .then()
                 .statusCode(200)
                 .extract().as(new TypeRef<List<CreateUserResponseModel>>() {
