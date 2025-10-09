@@ -7,10 +7,11 @@ import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 import common.helper.StepLogger;
+import lombok.Getter;
 
 import java.util.List;
 
-
+@Getter
 public class UserSteps {
     private CreateAccountResponseModel account;
     private String username;

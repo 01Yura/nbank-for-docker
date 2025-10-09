@@ -29,6 +29,7 @@ public class UsersWithAccountsExtension implements BeforeEachCallback {
     public void beforeEach(ExtensionContext context) throws Exception {
         // 1. Считываем аннотацию @UsersWithAccounts с тестового метода.
         // Если аннотации нет — ничего не делаем и выходим.
+//        Но для этого надо на сам класс с тестом или лучше даже на BaseUiTest навесить спец аннотацию @ExtendWith(UsersWithAccountsExtension.class)
         UsersWithAccounts annotation = context.getRequiredTestMethod().getAnnotation(UsersWithAccounts.class);
         if (annotation == null) {
             return;

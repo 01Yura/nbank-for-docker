@@ -10,6 +10,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import common.extensions.AdminSessionExtension;
 import common.extensions.BrowserMatchExtension;
 import common.extensions.UserSessionExtension;
+import common.extensions.UsersWithAccountsExtension;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,8 +24,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 @ExtendWith(AdminSessionExtension.class)
 @ExtendWith(UserSessionExtension.class)
 @ExtendWith(BrowserMatchExtension.class)
-
-// проверка CI/CD pipeline1
+@ExtendWith(UsersWithAccountsExtension.class)
 
 public class BaseUiTest extends BaseApiTest {
     @BeforeAll

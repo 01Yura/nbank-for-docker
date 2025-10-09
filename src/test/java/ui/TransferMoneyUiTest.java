@@ -4,6 +4,7 @@ import api.models.CreateAccountResponseModel;
 import api.models.GetCustomerAccountsResponseModel;
 import api.models.TransactionType;
 import common.annotations.UserSession;
+import common.annotations.UsersWithAccounts;
 import common.storage.SessionStorage;
 import org.junit.jupiter.api.Test;
 import ui.pages.BankAlert;
@@ -16,18 +17,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TransferMoneyUiTest extends BaseUiTest {
 
     @Test
-    @UserSession(2)
+    @UsersWithAccounts(users = 2)
     void userCanTransferMoney() {
 //        create senderAccount
         CreateAccountResponseModel senderAccount =
-                SessionStorage.getSteps(1).createAccount();
+                SessionStorage.getSteps(1).getAccount();
 
         Float deposit = 100.0F;
         SessionStorage.getSteps(1).depositMoney(senderAccount, 100.0F);
 
 //        create recipientAccount
         CreateAccountResponseModel recipientAccount =
-               SessionStorage.getSteps(2).createAccount();
+               SessionStorage.getSteps(2).getAccount();
 
 //        Start UI test
         Float amountToTransfer = 10.0F;
