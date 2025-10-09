@@ -34,6 +34,9 @@ jobs:
       - name: Set up services
         run: cd infra && ./start-docker-compose.sh && cd ..
 
+      - name: Wait for 3 minutes
+        run: sleep 180
+
       - name: Detect runner IP
         id: runner_ip
         run: |
