@@ -80,6 +80,28 @@ jobs:
         if: always()
         run: .swagger-coverage-commandline-1.5.0/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i ./target/swagger-coverage-output
 
+      - name: Extract Docker images
+        # Извлекаем Docker образы из docker-compose.yml для отображения в уведомлениях
+        if: always()
+        run: |
+          # Устанавливаем yq для парсинга YAML
+          wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x /usr/local/bin/yq
+
+          # Извлекаем образы и сохраняем в файл
+          echo "🐳 Docker Images:" > docker_images.txt
+          yq eval '.services[].image' infra/docker-compose.yml | while read -r image; do
+            if [ -n "$image" ] && [ "$image" != "null" ]; then
+              # Извлекаем имя образа (убираем тег)
+              image_name=$(echo "$image" | cut -d':' -f1)
+              # Создаем ссылку на Docker Hub
+              echo "• <a href='https://hub.docker.com/r/$image_name'>$image</a>" >> docker_images.txt
+            fi
+          done
+
+          # Выводим содержимое для отладки
+          cat docker_images.txt
+
       - name: Load test report history
         # Загружаем историю отчётов Allure из ветки gh-pages, чтобы построить тренды
         uses: actions/checkout@v2
@@ -128,7 +150,9 @@ jobs:
           📋 GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Run</a>
 
           📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
-          📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>"
+          📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>
+
+          $(cat docker_images.txt)"
 
       - name: Notify on failure
         # В случае падения отправляем уведомление в Telegram с пометкой ошибки
@@ -146,4 +170,6 @@ jobs:
           📋 GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Run</a>
 
           📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
-          📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>"
+          📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>
+
+          $(cat docker_images.txt)"
