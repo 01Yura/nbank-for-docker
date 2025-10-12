@@ -126,8 +126,8 @@ jobs:
           👤 Author: [${{ github.actor }}](${{ github.server_url }}/${{ github.actor }})
           📋 GitHub Actions: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-          📊 Allure Report: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/
-          📈 Swagger Coverage: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html"
+          📊 Allure Report: [View Report](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/)
+          📈 Swagger Coverage: [View Coverage](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html)"
 
       - name: Notify on failure
         # В случае падения отправляем уведомление в Telegram с пометкой ошибки
@@ -143,5 +143,5 @@ jobs:
           👤 Author: [${{ github.actor }}](${{ github.server_url }}/${{ github.actor }})
           📋 GitHub Actions: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-          📊 Allure Report: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/
-          📈 Swagger Coverage: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html"
+          📊 Allure Report: [View Report](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/)
+          📈 Swagger Coverage: [View Coverage](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html)"
