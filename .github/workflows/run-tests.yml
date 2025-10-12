@@ -124,6 +124,14 @@ jobs:
         if: always()
         run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
 
+      - name: Collect test statistics
+        # Собираем статистику тестов из Allure и Swagger coverage отчетов
+        if: always()
+        id: test_stats
+        run: |
+          chmod +x scripts/collect-test-statistics.sh
+          ./scripts/collect-test-statistics.sh
+
       - name: Publish test report
         # Публикуем директорию allure-history в ветку gh-pages как статический сайт
         uses: peaceiris/actions-gh-pages@v3
@@ -149,6 +157,8 @@ jobs:
           👤 Author: <a href='${{ github.server_url }}/${{ github.actor }}'>${{ github.actor }}</a>
           📋 GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Run</a>
 
+          $(cat test-statistics.txt)
+
           📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
           📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>
 
@@ -168,6 +178,8 @@ jobs:
           🔗 Commit: <a href='${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}'>${{ github.sha }}</a>
           👤 Author: <a href='${{ github.server_url }}/${{ github.actor }}'>${{ github.actor }}</a>
           📋 GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Run</a>
+
+          $(cat test-statistics.txt)
 
           📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
           📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>
