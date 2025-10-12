@@ -120,7 +120,13 @@ jobs:
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="✅ Tests PASSED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}
 
-          📊 Allure Report: https://01yura.github.io/nbank-for-docker/
+          📦 Repository: ${{ github.repository }}
+          🌿 Branch: ${{ github.ref_name }}
+          🔗 Commit: ${{ github.sha }}
+          👤 Author: ${{ github.actor }}
+          📋 GitHub Actions: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          📊 Allure Report: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/
           📈 Swagger Coverage: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html"
 
       - name: Notify on failure
@@ -131,5 +137,11 @@ jobs:
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="❌ Tests FAILED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}
 
-          📊 Allure Report: https://01yura.github.io/nbank-for-docker/
+          📦 Repository: ${{ github.repository }}
+          🌿 Branch: ${{ github.ref_name }}
+          🔗 Commit: ${{ github.sha }}
+          👤 Author: ${{ github.actor }}
+          📋 GitHub Actions: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          📊 Allure Report: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/
           📈 Swagger Coverage: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html"
