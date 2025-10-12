@@ -24,7 +24,7 @@ swagger-coverage-report.html
 swagger-coverage-results.json
 allure-report
 .allure
-
+.swagger-coverage-commandline-1.5.0
 
 
 ### Eclipse ###
