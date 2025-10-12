@@ -30,7 +30,7 @@ public class TransferMoneyApiTest extends BaseApiTest {
     static Stream<Arguments> argsFor_userCannotTransferMoney() {
         return Stream.of(
 //                Negative: Authorized user CANNOT transfer amount money from one account to another if this amount of money doesn't exist on their account
-                Arguments.of(1000.0F, 100.0F, 200.0F, "Transfer amount must be at least 0.01"),
+                Arguments.of(1000.0F, 100.0F, 200.0F, "Invalid transfer: insufficient funds or invalid accounts"),
 //                Negative: Authorized user CANNOT transfer invalid amount of money from one account to another (-1)
                 Arguments.of(-1.0F, 1.0F, 2.0F, "Transfer amount must be at least 0.01"),
 //                Negative: Authorized user CANNOT transfer invalid amount of money from one account to another (0)
