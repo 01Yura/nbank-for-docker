@@ -118,16 +118,17 @@ jobs:
           # Текст содержит репозиторий, имя ветки/рефа и ссылки на отчеты
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="✅ Tests PASSED in GitHub Actions: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }}) on [${{ github.ref_name }}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }})
+            -d parse_mode="HTML" \
+            -d text="✅ Tests PASSED in GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}'>${{ github.repository }}</a> on <a href='${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}'>${{ github.ref_name }}</a>
 
-          📦 Repository: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
-          🌿 Branch: [${{ github.ref_name }}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }})
-          🔗 Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
-          👤 Author: [${{ github.actor }}](${{ github.server_url }}/${{ github.actor }})
-          📋 GitHub Actions: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          📦 Repository: <a href='${{ github.server_url }}/${{ github.repository }}'>${{ github.repository }}</a>
+          🌿 Branch: <a href='${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}'>${{ github.ref_name }}</a>
+          🔗 Commit: <a href='${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}'>${{ github.sha }}</a>
+          👤 Author: <a href='${{ github.server_url }}/${{ github.actor }}'>${{ github.actor }}</a>
+          📋 GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Run</a>
 
-          📊 Allure Report: [View Report](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/)
-          📈 Swagger Coverage: [View Coverage](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html)"
+          📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
+          📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>"
 
       - name: Notify on failure
         # В случае падения отправляем уведомление в Telegram с пометкой ошибки
@@ -135,13 +136,14 @@ jobs:
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="❌ Tests FAILED in GitHub Actions: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }}) on [${{ github.ref_name }}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }})
+            -d parse_mode="HTML" \
+            -d text="❌ Tests FAILED in GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}'>${{ github.repository }}</a> on <a href='${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}'>${{ github.ref_name }}</a>
 
-          📦 Repository: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
-          🌿 Branch: [${{ github.ref_name }}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }})
-          🔗 Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
-          👤 Author: [${{ github.actor }}](${{ github.server_url }}/${{ github.actor }})
-          📋 GitHub Actions: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          📦 Repository: <a href='${{ github.server_url }}/${{ github.repository }}'>${{ github.repository }}</a>
+          🌿 Branch: <a href='${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}'>${{ github.ref_name }}</a>
+          🔗 Commit: <a href='${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}'>${{ github.sha }}</a>
+          👤 Author: <a href='${{ github.server_url }}/${{ github.actor }}'>${{ github.actor }}</a>
+          📋 GitHub Actions: <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Run</a>
 
-          📊 Allure Report: [View Report](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/)
-          📈 Swagger Coverage: [View Coverage](https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html)"
+          📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
+          📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>"
