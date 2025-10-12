@@ -1,22 +1,35 @@
+# Это рабочий пайплайн с публикацией репорта в github-pages.
+# Для просмотра swagger-coverage нужно прописать в браузере https://01yura.github.io/nbank-for-docker/НОМЕР_РЕПОРТА/swagger-coverage-report.html
+
+
+# Название workflow, отображается в списке GitHub Actions
 name: Run tests
 
-on: [ push, workflow_dispatch ]
+# Триггеры запуска:
+# - push: при каждом пуше в репозиторий
+# - workflow_dispatch: возможность ручного запуска из UI GitHub
+on: [push, workflow_dispatch]
 
 jobs:
   run-tests:
+    # Человекочитаемое имя job: готовим сервисы и запускаем тесты
     name: Set up services (review apps) and run tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
+        # Клонируем репозиторий в рабочую директорию раннера
         uses: actions/checkout@v4
 
       - name: Set up JDK
+        # Устанавливаем JDK 21 (Temurin) для сборки/запуска тестов Maven
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - name: Cache Maven repository
+        # Кешируем локальный Maven-репозиторий (~/.m2/repository)
+        # для ускорения последующих сборок (зависимости не будут скачиваться заново)
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
@@ -25,40 +38,91 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Set HOST_PATH for docker-compose
+        # Создаём файл переменных окружения infra/.env с путём проекта,
+        # чтобы docker-compose мог смонтировать правильные директории хоста
         run: |
+          # Абсолютный путь текущего проекта (рабочая директория раннера)
           PROJECT_PATH=$(pwd)
           echo "Detected project path: $PROJECT_PATH"
+          # Записываем переменную HOST_PATH в infra/.env
           echo "HOST_PATH=$PROJECT_PATH" > infra/.env
+          # Печатаем содержимое для отладки
           cat infra/.env
 
       - name: Set up services
+        # Запускаем docker-compose окружение (БД, backend, selenoid и т.д.)
+        # Скрипт start-docker-compose.sh внутри каталога infra инкапсулирует логику поднятия сервисов
         run: cd infra && ./start-docker-compose.sh && cd ..
 
-      - name: Wait for 3 minutes
-        run: sleep 180
-
       - name: Detect runner IP
+        # Определяем IP-адрес раннера, чтобы прокинуть его в переменную UIBASEURL
         id: runner_ip
         run: |
+          # Берём первый IP из списка интерфейсов (hostname -I)
           ip=$(hostname -I | awk '{print $1}')
           echo "Runner IP is: $ip"
+           # Пробрасываем ip как output шага (доступен как steps.runner_ip.outputs.ip)
           echo "ip=$ip" >> $GITHUB_OUTPUT
 
       - name: Run tests
+        # Запускаем тесты Maven в тихом режиме (-q). Переменные окружения:
+        # - APIBASEURL: базовый URL API сервиса
+        # - UIBASEURL: базовый URL UI (использует IP раннера, чтобы открыть nginx/selenoid UI извне контейнеров)
+        # - UIREMOTE: удалённый WebDriver (Selenoid)
         run: ./mvnw clean test -q
         env:
           APIBASEURL: http://localhost:4111
           UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:80
           UIREMOTE: http://localhost:4444/wd/hub
 
+      - name: Run Swagger coverage
+        # Всегда пытаемся собрать Swagger coverage, даже если тесты упали (if: always())
+        # Инструмент анализирует спецификацию OpenAPI и фактически вызванные эндпоинты
+        if: always()
+        run: .swagger-coverage-commandline-1.5.0/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i ./target/swagger-coverage-output
+
+      - name: Load test report history
+        # Загружаем историю отчётов Allure из ветки gh-pages, чтобы построить тренды
+        uses: actions/checkout@v2
+        if: always()
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        # Генерируем Allure-отчёт, складываем историю и новые результаты
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_results: target/allure-results
+          allure_history: allure-history
+
+      - name: Build swagger coverage report
+        # Копируем html-отчёт по Swagger coverage в каталог истории за текущий запуск
+        if: always()
+        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
+
+      - name: Publish test report
+        # Публикуем директорию allure-history в ветку gh-pages как статический сайт
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
       - name: Notify on success
+        # В случае успеха отправляем уведомление в Telegram через бота
         if: success()
         run: |
+          # Текст содержит репозиторий и имя ветки/рефа
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="✅ Tests PASSED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}"
 
       - name: Notify on failure
+        # В случае падения отправляем уведомление в Telegram с пометкой ошибки
         if: failure()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
