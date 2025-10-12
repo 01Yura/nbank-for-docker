@@ -1,7 +1,6 @@
 # Это рабочий пайплайн с публикацией репорта в github-pages.
 # Для просмотра swagger-coverage нужно прописать в браузере https://01yura.github.io/nbank-for-docker/НОМЕР_РЕПОРТА/swagger-coverage-report.html
 
-
 # Название workflow, отображается в списке GitHub Actions
 name: Run tests
 
@@ -116,10 +115,13 @@ jobs:
         # В случае успеха отправляем уведомление в Telegram через бота
         if: success()
         run: |
-          # Текст содержит репозиторий и имя ветки/рефа
+          # Текст содержит репозиторий, имя ветки/рефа и ссылки на отчеты
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="✅ Tests PASSED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}"
+            -d text="✅ Tests PASSED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}
+
+          📊 Allure Report: https://01yura.github.io/nbank-for-docker/
+          📈 Swagger Coverage: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html"
 
       - name: Notify on failure
         # В случае падения отправляем уведомление в Telegram с пометкой ошибки
@@ -127,4 +129,7 @@ jobs:
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="❌ Tests FAILED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}"
+            -d text="❌ Tests FAILED in GitHub Actions: ${{ github.repository }} on ${{ github.ref_name }}
+
+          📊 Allure Report: https://01yura.github.io/nbank-for-docker/
+          📈 Swagger Coverage: https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html"
