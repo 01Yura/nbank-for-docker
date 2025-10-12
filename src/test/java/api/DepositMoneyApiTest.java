@@ -33,11 +33,11 @@ public class DepositMoneyApiTest extends BaseApiTest {
     static Stream<Arguments> argsFor_userCannotDepositMoney() {
         return Stream.of(
                 //                Negative: Authorized user CANNOT deposit money to their account if amount of money is negative number
-                Arguments.of(-0.01F, "Invalid account or amount"),
+                Arguments.of(-0.01F, "Deposit amount must be at least 0.01"),
                 //                Negative: Authorized user CANNOT deposit money to their account if amount of money is 0
-                Arguments.of(0.0F, "Invalid account or amount"),
+                Arguments.of(0.0F, "Deposit amount must be at least 0.01"),
                 //                Negative: Authorized user CANNOT deposit money to their account if amount of money is more than 5000 (5001)
-                Arguments.of(5000.01F, "Deposit amount exceeds the 5000 limit")
+                Arguments.of(5000.01F, "Deposit amount cannot exceed 5000")
         );
     }
 
