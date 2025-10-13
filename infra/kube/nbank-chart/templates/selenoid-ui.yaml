@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: selenoid-ui
 spec:
-  replicas: 1
+  replicas: {{ .Values.selenoidUi.replicaCount }}
   selector:
     matchLabels:
       app: selenoid-ui

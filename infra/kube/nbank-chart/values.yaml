@@ -1,2 +1,5 @@
 imagePullPolicy: IfNotPresent
 replicaCount: 1
+
+selenoidUi:
+  replicaCount: 2
