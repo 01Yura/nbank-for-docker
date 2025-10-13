@@ -12,6 +12,11 @@ kubectl create configmap selenoid-config --from-file=browsers.json=./nbank-chart
 # Это создаст все ресурсв, описанные в шаблонах Helm (Deployment, Service)
 helm install nbank ./nbank-chart
 
+# helm upgrade --install nbank ./nbank-chart
+# это удобный шорткат, чтобы не мучиться с uninstall и install
+# Если релиз (nbank) уже существует → Helm делает upgrade (обновляет ресурсы по новым шаблонам).
+# Если релиза нет → Helm делает install (ставит его заново).
+
 # Все сервисы в namespace=default
 kubectl get svc
 
