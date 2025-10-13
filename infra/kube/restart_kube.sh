@@ -22,13 +22,13 @@ kubectl get pods
 kubectl logs deployment/backend
 
 # Проброс портов на локальную машину
-kubectl port-forward svc/frontend 3000:80 #  > /dev/null 2>&1 & (проброс порта в фоновом режиме)
+kubectl port-forward svc/frontend 3000:80     #  > /dev/null 2>&1 (проброс порта в фоновом режиме)
 kubectl port-forward svc/backend 4111:4111
 kubectl port-forward svc/selenoid 4444:4444
 kubectl port-forward svc/selenoid-ui 8080:8080
 
 # ШАГ 2: поднятие сервисов мониторинга
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true # в Винде не надо писать || true
 helm repo add elastic https://helm.elastic.co || true
 helm repo update
 
