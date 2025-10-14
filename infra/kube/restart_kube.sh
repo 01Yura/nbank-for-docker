@@ -4,7 +4,7 @@
 # ШАГ 1: поднятие сервисов приложения
 
 # Запустили локальный Kubernetes-кластер с помощью minikube
-minikube start
+minikube start --cpus=4 --memory=16384
 
 # Создали ConfigMap с именем selenoid-config, файл будет доступен под ключом browsers.json
 kubectl create configmap selenoid-config --from-file=browsers.json=./nbank-chart/files/browsers.json
