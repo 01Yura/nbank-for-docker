@@ -1,52 +1,76 @@
 #!/bin/bash
 
 ## ============================================================================
-# Скрипт запускает Docker-контейнер с автотестами (образ 01yura/nbank-tests)
-# с передачей профиля тестов и IP хоста на котором подняты фронт и бэк.
+# Скрипт скачивает и запускает Docker-контейнер с автотестами (образ 01yura/nbank-tests) для приложения NBank
+# с передачей профиля тестов (api, ui или оба) и IP хоста на котором подняты фронт и бэк.
 #
 # Возможности скрипта:
 # 1. Определяет IP текущего хоста (Linux, macOS, Windows через Git Bash/WSL)
 #
-# 2. Может загрузить переменные APIBASEURL и UIBASEURL из файла .env-for-run-tests
+# 2. Может загрузить переменные APIBASEURL и UIBASEURL из файла .env-for-run-tests, если приложение Nbank поднято не локально
 #    ────────────────────────────────────────────────────────────────────────
 #    Если фронтенд и бэкенд запущены на ДРУГОЙ машине (например, на DEV/TEST
 #    сервере в сети или на облачном хостинге), вы можете создать файл
 #    `.env-for-run-tests` рядом со скриптом и указать в нём свои адреса:
 #
-#        APIBASEURL=http://192.168.1.50:4111
-#        UIBASEURL=http://192.168.1.50
+#        APIBASEURL=http://194.87.199.75:4111
+#        UIBASEURL=http://194.87.199.75
 #
 #    Скрипт автоматически подхватит эти значения и будет использовать их
 #    вместо вычисленного локального IP. Это удобно для запуска тестов на
 #    удалённом окружении, а не локально.
 #
-# 3. Если файл .env-for-run-tests отсутствует или в нём не заданы переменные, скрипт сам формирует
-#    APIBASEURL и UIBASEURL по локальному IP текущего компьютера:
+# 3. Можно ПЕРЕДАТЬ переменные прямо при запуске скрипта:
+#
+#        ./run-tests.sh api APIBASEURL=http://x:4111 UIBASEURL=http://x
+#        ./run-tests.sh --apibaseurl=http://x:4111 --uibaseurl=http://x ui
+#
+#    В первом примере используется форма KEY=VALUE, во втором — флаги.
+#    Профиль (ui|api) можно указывать в любом месте среди аргументов.
+#
+# 4. Если файл .env-for-run-tests отсутствует и переменные не переданы, скрипт
+#    сам формирует APIBASEURL и UIBASEURL по локальному IP текущего компьютера:
 #
 #        APIBASEURL=http://<локальный_IP>:4111
 #        UIBASEURL=http://<локальный_IP>
 #
-# 4. Монтирует директории для логов и отчётов в ./test-output/<timestamp>
+# 5. Монтирует директории для логов и отчётов в ./test-output/<timestamp>
 #
-# 5. После завершения контейнера выводит пути к логам и отчётам
+# 6. После завершения контейнера выводит пути к логам и отчётам
 #
 # Использование:
-#    ./run-tests.sh [profile]
+#    ./run-tests.sh [profile] [APIBASEURL=...] [UIBASEURL=...] [--apibaseurl=...] [--uibaseurl=...]
 #
-# Аргумент [profile] может быть:
+# Профиль [profile]:
 #   - ui   — запуск только UI тестов
 #   - api  — запуск только API тестов
 #   - не указан — будут запущены все тесты
 #
-# Примеры:
-#    ./run-tests.sh          # Запуск всех тестов
-#    ./run-tests.sh api      # Запуск только API тестов
-#    ./run-tests.sh ui       # Запуск только UI тестов
+# Примеры запуска:
+#    ./run-tests.sh                                                       # Запуск всех тестов
+#    ./run-tests.sh api                                                   # Запуск только API тестов
+#    ./run-tests.sh ui                                                    # Запуск только UI тестов
+#    ./run-tests.sh api APIBASEURL=http://x:4111                          # Запуск api тестов на определенном окружении переданном прямо в команде запуска
+#    ./run-tests.sh --apibaseurl=http://x:4111 --uibaseurl=http://x ui    # Запуск ui тестов на определенном окружении переданном прямо в команде запуска
 # ============================================================================
 
 set -e
 
 IMAGE_NAME="01yura/nbank-tests"
+
+# Проверяем наличие Docker CLI
+if ! command -v docker >/dev/null 2>&1; then
+    echo "❗ Docker не найден. Установите Docker Desktop / Docker и повторите попытку."
+    sleep 3
+    exit 1
+fi
+
+# Проверяем, что Docker daemon запущен
+if ! docker info >/dev/null 2>&1; then
+    echo "❗ Docker daemon не запущен. Пожалуйста, запустите Docker Desktop и повторите."
+    sleep 3
+    exit 1
+fi
 
 # Загружаем переменные из .env-for-run-tests, если файл существует
 if [ -f ".env-for-run-tests" ]; then
@@ -64,12 +88,38 @@ else
     HOST_IP="127.0.0.1"
 fi
 
-# Если APIBASEURL и UIBASEURL не заданы через .env, формируем их автоматически
+# Разбираем аргументы командной строки: профиль и переопределения базовых URL
+TEST_PROFILE=""
+for arg in "$@"; do
+    case "$arg" in
+        ui|api)
+            TEST_PROFILE="$arg"
+            ;;
+        --profile=*)
+            TEST_PROFILE="${arg#*=}"
+            ;;
+        --apibaseurl=*)
+            APIBASEURL="${arg#*=}"
+            ;;
+        --uibaseurl=*)
+            UIBASEURL="${arg#*=}"
+            ;;
+        APIBASEURL=*)
+            APIBASEURL="${arg#*=}"
+            ;;
+        UIBASEURL=*)
+            UIBASEURL="${arg#*=}"
+            ;;
+        *)
+            ;;
+    esac
+done
+
+# Если APIBASEURL и UIBASEURL не заданы явно, формируем их автоматически по локальному IP
 APIBASEURL="${APIBASEURL:-http://$HOST_IP:4111}"
 UIBASEURL="${UIBASEURL:-http://$HOST_IP}"
 
-# Проверяем аргумент профиля
-TEST_PROFILE="$1"
+# Проверяем профиль
 if [[ -z "$TEST_PROFILE" ]]; then
     echo "❗ Профиль не указан, будут запущены ВСЕ тесты"
     TEST_PROFILE="all"
@@ -109,7 +159,7 @@ docker run --rm \
   -e TEST_PROFILE="$TEST_PROFILE" \
   -e APIBASEURL="$APIBASEURL" \
   -e UIBASEURL="$UIBASEURL" \
-  "$IMAGE_NAME"
+  "$IMAGE_NAME" || { echo "❗ Не удалось запустить контейнер Docker. Проверьте, что Docker запущен и доступен."; sleep 3; exit 1; }
 
 
 echo "=== Контейнер завершил работу ==="
