@@ -101,12 +101,12 @@ STATS_FILE="test-statistics.txt"
 
 cat > "$STATS_FILE" << EOF
 📊 Test Statistics:
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━
 📝 Total tests: $TOTAL_TESTS
 ✅ Passed: $PASSED_TESTS
 ❌ Failed: $FAILED_TESTS
 📈 Success rate: $SUCCESS_RATE%
-🔌 API coverage: $API_COVERAGE%
+🔌 API coverage: пока не настроил корректное отображение(
 EOF
 
 echo ""
