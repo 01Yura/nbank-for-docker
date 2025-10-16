@@ -29,7 +29,7 @@ public class CustomLoggingFilter implements Filter {
 
         if (requestSpec.getBody() != null) {
             System.out.println();
-            System.out.println("Body:");
+            System.out.println("Request Body:");
             try {
                 String prettyBody = prettyPrinter.writeValueAsString(
                         new ObjectMapper().readTree(requestSpec.getBody().toString()));
@@ -53,7 +53,7 @@ public class CustomLoggingFilter implements Filter {
                 System.out.println(header.getName() + ": " + header.getValue())
         );
         System.out.println();
-        System.out.println("Body:");
+        System.out.println("Response Body:");
         System.out.println(response.getBody().asPrettyString());
         System.out.println("------------------------------");
         System.out.println();
