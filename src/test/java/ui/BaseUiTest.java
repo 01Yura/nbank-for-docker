@@ -81,11 +81,10 @@ public class BaseUiTest extends BaseApiTest {
 //    }
 
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя
-    @AfterEach
-    void tearDown() throws InterruptedException {
-        Thread.sleep(10000);
-        Selenide.closeWebDriver();
-    }
+//    @AfterEach
+//    void tearDown(){
+//        Selenide.closeWebDriver();
+//    }
 
 
     void authAsUser(String username, String password) {
