@@ -129,7 +129,8 @@ jobs:
         # Создаём директорию для видео в allure-history
         if: always()
         run: |
-          mkdir -p allure-history/${{ github.run_number }}/videos
+          sudo mkdir -p allure-history/${{ github.run_number }}/videos
+          sudo chown -R $USER:$USER allure-history/${{ github.run_number }}/videos
           echo "Created video directory: allure-history/${{ github.run_number }}/videos"
 
       - name: Copy test videos
@@ -138,7 +139,8 @@ jobs:
         run: |
           if [ -d "selenoid_reports/video" ] && [ "$(ls -A selenoid_reports/video)" ]; then
             echo "Found test videos, copying to allure-history..."
-            cp -r selenoid_reports/video/* allure-history/${{ github.run_number }}/videos/ 2>/dev/null || true
+            sudo cp -r selenoid_reports/video/* allure-history/${{ github.run_number }}/videos/ 2>/dev/null || true
+            sudo chown -R $USER:$USER allure-history/${{ github.run_number }}/videos/
             echo "Videos copied successfully"
             ls -la allure-history/${{ github.run_number }}/videos/
           else
