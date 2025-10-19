@@ -59,8 +59,9 @@ public abstract class BasePage<T extends BasePage> {
         return (T) this;
     }
 
-    public static void authAsUser(String username, String password) {
+    public static void authAsUser(String username, String password) throws Exception{
         Selenide.open("/");
+        Thread.sleep(5000);
         String userAuthToken = RequestSpecs.getUserAuthHeader(username, password);
         executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthToken);
     }
