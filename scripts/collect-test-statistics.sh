@@ -106,7 +106,7 @@ cat > "$STATS_FILE" << EOF
 ✅ Passed: $PASSED_TESTS
 ❌ Failed: $FAILED_TESTS
 📈 Success rate: $SUCCESS_RATE%
-🔌 API coverage: is not configured yet :(
+🔌 API coverage: not configured yet :(
 EOF
 
 echo ""

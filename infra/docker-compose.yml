@@ -64,10 +64,10 @@ services:
       - nbank-network
 
   # Этот контейнер тоже надо запускать, но зачем не понятно, иначе ошибка
-  selenoid-video-recorder:
-    image: selenoid/video-recorder:latest-release
-    networks:
-      - nbank-network
+#  selenoid-video-recorder:
+#    image: selenoid/video-recorder:latest-release
+#    networks:
+#      - nbank-network
 
 networks:
   nbank-network:
