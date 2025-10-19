@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Getter
-public abstract class BasePage<T extends BasePage> throws Exception{
+public abstract class BasePage<T extends BasePage>{
     protected SelenideElement usernameInput = $(Selectors.byAttribute("placeholder", "Username"));
     protected SelenideElement passwordInput = $(Selectors.byAttribute("placeholder", "Password"));
     protected SelenideElement userNameInfoIcon = $(Selectors.byClassName("user-name"));
@@ -59,9 +59,8 @@ public abstract class BasePage<T extends BasePage> throws Exception{
         return (T) this;
     }
 
-    public static void authAsUser(String username, String password) throws Exception{
+    public static void authAsUser(String username, String password){
         Selenide.open("/");
-        Thread.sleep(5000);
         String userAuthToken = RequestSpecs.getUserAuthHeader(username, password);
         executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthToken);
     }
