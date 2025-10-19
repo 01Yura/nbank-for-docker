@@ -104,7 +104,7 @@ cat > "$VIDEOS_DIR/index.html" << 'EOF'
 </head>
 <body>
     <div class="container">
-        <a href="../" class="back-link">← Back to Test Report</a>
+        <a href="../" class="back-link">← Back to Test Allure Report</a>
         <h1>🎥 Test Videos - Run #RUN_NUMBER_PLACEHOLDER</h1>
         <div class="video-grid" id="videoGrid">
             <!-- Videos will be populated by JavaScript -->
