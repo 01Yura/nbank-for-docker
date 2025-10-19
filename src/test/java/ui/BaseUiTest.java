@@ -43,6 +43,7 @@ public class BaseUiTest extends BaseApiTest {
         options.put("enableVNC", true);
         options.put("enableLog", true);
         options.put("enableVideo", true);
+        options.put("videoName", "test_" + System.currentTimeMillis() + ".mp4");
 
         Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
