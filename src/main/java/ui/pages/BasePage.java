@@ -61,7 +61,7 @@ public abstract class BasePage<T extends BasePage>{
 
     public static void authAsUser(String username, String password) throws InterruptedException {
         Selenide.open("/");
-        Thread.sleep(2000);
+        Thread.sleep(2000); // добавил для видеозаписи, иначе тест идет, а запись стартует позже
         String userAuthToken = RequestSpecs.getUserAuthHeader(username, password);
         executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthToken);
     }
