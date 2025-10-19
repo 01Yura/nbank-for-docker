@@ -35,6 +35,7 @@ public class BaseUiTest extends BaseApiTest {
         Configuration.browserSize = Config.getProperty("browserSize");
         Configuration.headless = false;
         Configuration.timeout = 10_000;
+
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
@@ -42,10 +43,6 @@ public class BaseUiTest extends BaseApiTest {
         options.put("enableVNC", true);
         options.put("enableLog", true);
         options.put("enableVideo", true);
-        // Настройки для улучшения записи видео
-        options.put("videoScreenSize", "1920x1080");
-        options.put("videoFrameRate", 24);
-        options.put("videoCodec", "libx264");
 
         Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
@@ -81,10 +78,10 @@ public class BaseUiTest extends BaseApiTest {
 //    }
 
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя
-//    @AfterEach
-//    void tearDown(){
-//        Selenide.closeWebDriver();
-//    }
+    @AfterEach
+    void tearDown(){
+        Selenide.closeWebDriver();
+    }
 
 
     void authAsUser(String username, String password) {
