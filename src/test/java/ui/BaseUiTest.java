@@ -11,7 +11,6 @@ import common.extensions.AdminSessionExtension;
 import common.extensions.BrowserMatchExtension;
 import common.extensions.UserSessionExtension;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -82,16 +81,12 @@ public class BaseUiTest extends BaseApiTest {
 //    }
 
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя
-//    @AfterEach
-//    void tearDown() {
-//        // Не закрываем WebDriver здесь, чтобы запись продолжалась до конца теста
-//        // Selenide.closeWebDriver();
-//    }
-    
-    @AfterAll
-    static void tearDownAll() {
+    @AfterEach
+    void tearDown() throws InterruptedException {
+        Thread.sleep(10000);
         Selenide.closeWebDriver();
     }
+
 
     void authAsUser(String username, String password) {
         Selenide.open("/");
