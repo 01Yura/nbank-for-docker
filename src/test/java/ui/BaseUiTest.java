@@ -11,6 +11,7 @@ import common.extensions.AdminSessionExtension;
 import common.extensions.BrowserMatchExtension;
 import common.extensions.UserSessionExtension;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,10 @@ public class BaseUiTest extends BaseApiTest {
         options.put("enableVNC", true);
         options.put("enableLog", true);
         options.put("enableVideo", true);
+        // Настройки для улучшения записи видео
+        options.put("videoScreenSize", "1920x1080");
+        options.put("videoFrameRate", 24);
+        options.put("videoCodec", "libx264");
 
         Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
@@ -49,6 +54,8 @@ public class BaseUiTest extends BaseApiTest {
     //    Использую BeforeEach и AfterEach чтобы после каждого теста закрывать сессию и чтобы на каждый тест открывалась
 //    новая сессия (открывается новый контейнер и соответственно новый браузер) для того, чтобы каждый тест имел своё
 //    уникальное имя (это нужно для записи видео с уникальными именами по названию класса тестов)
+//    
+//    Если нужны отдельные видео для каждого теста, раскомментируйте этот код:
 //    @BeforeEach
 //    void setupVideoName(TestInfo testInfo) {
 //        String ts = java.time.LocalDateTime.now()
@@ -75,8 +82,14 @@ public class BaseUiTest extends BaseApiTest {
 //    }
 
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя
-    @AfterEach
-    void tearDown() {
+//    @AfterEach
+//    void tearDown() {
+//        // Не закрываем WebDriver здесь, чтобы запись продолжалась до конца теста
+//        // Selenide.closeWebDriver();
+//    }
+    
+    @AfterAll
+    static void tearDownAll() {
         Selenide.closeWebDriver();
     }
 
