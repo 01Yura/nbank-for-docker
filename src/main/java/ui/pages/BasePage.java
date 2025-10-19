@@ -59,12 +59,6 @@ public abstract class BasePage<T extends BasePage> {
         return (T) this;
     }
 
-    //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя по имени класса теста
-    @AfterEach
-    void tearDown() {
-        WebDriverRunner.closeWindow();
-    }
-
     public static void authAsUser(String username, String password) {
         Selenide.open("/");
         String userAuthToken = RequestSpecs.getUserAuthHeader(username, password);
