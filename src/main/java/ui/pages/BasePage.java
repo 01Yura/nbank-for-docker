@@ -29,6 +29,17 @@ public abstract class BasePage<T extends BasePage>{
         return Selenide.open(url(), (Class<T>) this.getClass());
     }
 
+    //    метод wait для ожидания указанного количества секунд, возвращает объект страницы для цепочки вызовов. Нужен для корректной видиозаписи
+    public T wait(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // восстанавливаем статус прерывания
+            throw new RuntimeException("Thread was interrupted during wait", e);
+        }
+        return (T) this;
+    }
+
 //    Метод getPage(Class<T> pageClass) обычно используется в паттерне Page Object для перехода между страницами.
 //    После какого-то действия (например, логина) ты оказываешься на новой странице, и тебе нужно получить объект,
 //    который будет представлять эту новую страницу.
@@ -61,7 +72,7 @@ public abstract class BasePage<T extends BasePage>{
 
     public static void authAsUser(String username, String password) throws InterruptedException {
         Selenide.open("/");
-        Thread.sleep(8000); // добавил для видеозаписи, иначе тест идет, а запись стартует позже
+        Thread.sleep(2000); // добавил для видеозаписи, иначе тест идет, а запись стартует позже
         String userAuthToken = RequestSpecs.getUserAuthHeader(username, password);
         executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthToken);
     }
