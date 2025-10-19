@@ -30,11 +30,11 @@ public class AdminPanel extends BasePage<AdminPanel> {
     }
 
     public List<UserBage> getAllUsers() {
-        return StepLogger.log("Get all users from Dashboard", () -> {
+
             ElementsCollection elementsCollection =
                     $(Selectors.byText("All Users")).shouldBe(Condition.visible).parent().findAll("li");
             return generatePageElements(elementsCollection, UserBage::new);
-        });
+
     }
 
     public UserBage findUserByUsername(String username) throws InterruptedException {

@@ -3,6 +3,7 @@ package api.requests.skeleton.requesters;
 import api.models.BaseModel;
 import api.requests.skeleton.interfaces.CrudEndpointInterface;
 import api.requests.skeleton.interfaces.GetAllEndpointsInterface;
+import io.qameta.allure.Step;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -26,6 +27,7 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
 
 
     @Override
+    @Step
     public T get() {
         return (T) crudRequester
                 .get()
@@ -34,6 +36,7 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
 
 
     @Override
+    @Step
     public T put(BaseModel model) {
         return (T) crudRequester
                 .put(model)
@@ -42,6 +45,7 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
 
 
     @Override
+    @Step
     public T post(BaseModel model) {
         return (T) crudRequester
                 .post(model)
@@ -50,11 +54,13 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
 
 
     @Override
+    @Step
     public T delete(Long id) {
         return null;
     }
 
     @Override
+    @Step
     public List<T> getAll(Class<?> clazz) {
         T[] array = (T[]) crudRequester.getAll(clazz).extract().as(clazz);
         return Arrays.asList(array);
