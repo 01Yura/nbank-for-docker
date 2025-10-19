@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Getter
-public abstract class BasePage<T extends BasePage> {
+public abstract class BasePage<T extends BasePage> throws Exception{
     protected SelenideElement usernameInput = $(Selectors.byAttribute("placeholder", "Username"));
     protected SelenideElement passwordInput = $(Selectors.byAttribute("placeholder", "Password"));
     protected SelenideElement userNameInfoIcon = $(Selectors.byClassName("user-name"));
