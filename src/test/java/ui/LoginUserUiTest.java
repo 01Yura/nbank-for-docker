@@ -16,7 +16,7 @@ public class LoginUserUiTest extends BaseUiTest {
     void adminCanLoginWithValidCredentials() {
         CreateUserRequestModel admin = CreateUserRequestModel.getAdmin();
 
-        new LoginPage().open().login(admin.getUsername(), admin.getPassword())
+        new LoginPage().open().wait(2).login(admin.getUsername(), admin.getPassword())
                 .getPage(AdminPanel.class).getAdminPanelText()
                 .shouldBe(Condition.visible);
     }
@@ -25,7 +25,7 @@ public class LoginUserUiTest extends BaseUiTest {
     void userCanLoginWithValidCredentials() {
         CreateUserRequestModel user = AdminSteps.createUser();
 
-        new LoginPage().open().login(user.getUsername(), user.getPassword())
+        new LoginPage().open().wait(2).login(user.getUsername(), user.getPassword())
                 .getPage(UserDashboard.class).getWelcomeText()
                 .shouldBe(Condition.visible).shouldHave(Condition.text("Welcome, " + "noname!"));
 

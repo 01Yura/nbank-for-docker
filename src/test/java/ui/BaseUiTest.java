@@ -24,7 +24,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 @ExtendWith(UserSessionExtension.class)
 @ExtendWith(BrowserMatchExtension.class)
 
-// проверка CI/CD pipeline
+// проверка CI/CD pipeline 1
 
 public class BaseUiTest extends BaseApiTest {
     @BeforeAll
@@ -35,6 +35,7 @@ public class BaseUiTest extends BaseApiTest {
         Configuration.browserSize = Config.getProperty("browserSize");
         Configuration.headless = false;
         Configuration.timeout = 10_000;
+
 //        слушатель для allure
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
@@ -42,6 +43,7 @@ public class BaseUiTest extends BaseApiTest {
         options.put("enableVNC", true);
         options.put("enableLog", true);
         options.put("enableVideo", true);
+//        options.put("videoName", "test_" + System.currentTimeMillis() + ".mp4");
 
         Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
@@ -49,6 +51,8 @@ public class BaseUiTest extends BaseApiTest {
     //    Использую BeforeEach и AfterEach чтобы после каждого теста закрывать сессию и чтобы на каждый тест открывалась
 //    новая сессия (открывается новый контейнер и соответственно новый браузер) для того, чтобы каждый тест имел своё
 //    уникальное имя (это нужно для записи видео с уникальными именами по названию класса тестов)
+//    
+//    Если нужны отдельные видео для каждого теста, раскомментируйте этот код:
 //    @BeforeEach
 //    void setupVideoName(TestInfo testInfo) {
 //        String ts = java.time.LocalDateTime.now()
@@ -76,9 +80,10 @@ public class BaseUiTest extends BaseApiTest {
 
     //      используем для того, чтобы закрыть сессию и новая видеозапись имела новое имя
     @AfterEach
-    void tearDown() {
+    void tearDown(){
         Selenide.closeWebDriver();
     }
+
 
     void authAsUser(String username, String password) {
         Selenide.open("/");
