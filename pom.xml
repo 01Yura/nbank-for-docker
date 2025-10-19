@@ -202,7 +202,7 @@
                     <useModulePath>false</useModulePath>
                     <argLine>
                         ${argLine}
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.23/aspectjweaver-1.9.23.jar"
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar"
                         -Daj.weaving.verbose=true
                     </argLine>
                     <!-- Базовая конфигурация для запуска всех тестов -->
