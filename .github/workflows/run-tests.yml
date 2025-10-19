@@ -125,6 +125,26 @@ jobs:
         if: always()
         run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }}
 
+      - name: Prepare video directory
+        # Создаём директорию для видео в allure-history
+        if: always()
+        run: |
+          mkdir -p allure-history/${{ github.run_number }}/videos
+          echo "Created video directory: allure-history/${{ github.run_number }}/videos"
+
+      - name: Copy test videos
+        # Копируем видео UI тестов из selenoid_reports/video в allure-history
+        if: always()
+        run: |
+          if [ -d "selenoid_reports/video" ] && [ "$(ls -A selenoid_reports/video)" ]; then
+            echo "Found test videos, copying to allure-history..."
+            cp -r selenoid_reports/video/* allure-history/${{ github.run_number }}/videos/ 2>/dev/null || true
+            echo "Videos copied successfully"
+            ls -la allure-history/${{ github.run_number }}/videos/
+          else
+            echo "No test videos found in selenoid_reports/video"
+          fi
+
       - name: Collect test statistics
         # Собираем статистику тестов из Allure и Swagger coverage отчетов
         if: always()
@@ -162,6 +182,7 @@ jobs:
 
           📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
           📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>
+          🎥 Test Videos: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/videos/'>View Videos</a>
 
           $(cat docker_images.txt)"
 
@@ -184,5 +205,6 @@ jobs:
 
           📊 Allure Report: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/'>View Report</a>
           📈 Swagger Coverage: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/swagger-coverage-report.html'>View Coverage</a>
+          🎥 Test Videos: <a href='https://01yura.github.io/nbank-for-docker/${{ github.run_number }}/videos/'>View Videos</a>
 
           $(cat docker_images.txt)"

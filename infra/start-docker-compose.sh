@@ -23,5 +23,8 @@ for image in $images; do
     docker pull "$image"
 done
 
+echo ">>> Скачивание образа video-recorder"
+docker pull selenoid/video-recorder:latest-release
+
 echo ">>> Запуск Docker Compose"
 docker compose up -d
