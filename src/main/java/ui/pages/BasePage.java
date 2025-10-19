@@ -38,6 +38,17 @@ public abstract class BasePage<T extends BasePage> {
         return Selenide.page(pageClass);
     }
 
+    //    метод wait для ожидания указанного количества секунд, возвращает объект страницы для цепочки вызовов. Нужен для корректной видиозаписи
+    public T wait(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // восстанавливаем статус прерывания
+            throw new RuntimeException("Thread was interrupted during wait", e);
+        }
+        return (T) this;
+    }
+
     public T checkAlertMessageAndAccept(String... bankAlerts) {
         Alert alert = switchTo().alert();
         String alertText = alert.getText();
