@@ -70,14 +70,15 @@ public abstract class BasePage<T extends BasePage> {
         return (T) this;
     }
 
-    public static void authAsUser(String username, String password) {
+    public static void authAsUser(String username, String password) throws InterruptedException {
         Selenide.open("/");
+        Thread.sleep(2000);
         String userAuthToken = RequestSpecs.getUserAuthHeader(username, password);
         executeJavaScript("localStorage.setItem('authToken', arguments[0]);", userAuthToken);
     }
 
     //        это перегруженный метод authAsUser, используем чтобы сократить код, так как в нем вызываем первый authAsUser
-    public static void authAsUser(CreateUserRequestModel createUserRequestModel) {
+    public static void authAsUser(CreateUserRequestModel createUserRequestModel) throws InterruptedException {
         authAsUser(createUserRequestModel.getUsername(), createUserRequestModel.getPassword());
     }
 
