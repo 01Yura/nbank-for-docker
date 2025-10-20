@@ -29,6 +29,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 public class BaseUiTest extends BaseApiTest {
     @BeforeAll
     static void globalSelenideSetup() {
+        // Настройки Selenide
         Configuration.remote = Config.getProperty("uiRemote");
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
@@ -36,15 +37,18 @@ public class BaseUiTest extends BaseApiTest {
         Configuration.headless = false;
         Configuration.timeout = 10_000;
 
-//        слушатель для allure
+        // Добавление слушателя для интеграции с Allure отчетностью
+        // Позволяет записывать действия Selenide в Allure отчеты для лучшей диагностики
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
+        // Создание карты дополнительных опций для Selenoid (это уже настройка для Selenoid, а не для Selenide)
         Map<String, Object> options = new HashMap<>();
         options.put("enableVNC", true);
         options.put("enableLog", true);
         options.put("enableVideo", true);
-//        options.put("videoName", "test_" + System.currentTimeMillis() + ".mp4");
 
+        // Применение настроек Selenoid к capabilities браузера
+        // Эти опции будут переданы в Selenoid при создании сессии браузера
         Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
 
