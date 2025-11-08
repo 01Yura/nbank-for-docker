@@ -24,7 +24,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 @ExtendWith(UserSessionExtension.class)
 @ExtendWith(BrowserMatchExtension.class)
 
-// проверка CI/CD pipeline 3
+// проверка CI/CD pipeline 4
 
 public class BaseUiTest extends BaseApiTest {
     @BeforeAll
