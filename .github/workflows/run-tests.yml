@@ -1,4 +1,4 @@
-# Это рабочий пайплайн с публикацией репорта в github-pages.
+ # Это рабочий пайплайн с публикацией репорта в github-pages.
 # Для просмотра swagger-coverage нужно прописать в браузере https://01yura.github.io/nbank-for-docker/НОМЕР_РЕПОРТА/swagger-coverage-report.html
 # изменение для проверки
 

@@ -24,7 +24,7 @@ swagger-coverage-report.html
 swagger-coverage-results.json
 allure-report
 .allure
-
+selenoid_reports
 
 
 ### Eclipse ###
