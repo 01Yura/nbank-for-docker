@@ -1,4 +1,4 @@
- # Это рабочий пайплайн с публикацией репорта в github-pages.
+# Это рабочий пайплайн с публикацией репорта в github-pages.
 # Для просмотра swagger-coverage нужно прописать в браузере https://01yura.github.io/nbank-for-docker/НОМЕР_РЕПОРТА/swagger-coverage-report.html
 # изменение для проверки
 
@@ -165,6 +165,50 @@ jobs:
         run: |
           chmod +x scripts/collect-test-statistics.sh
           ./scripts/collect-test-statistics.sh
+
+      - name: Inspect Telegram secrets (masked)
+        # Проверяем наличие секретов и показываем их в логах (GitHub замаскирует значения)
+        if: always()
+        run: |
+          TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
+          CHAT="${{ secrets.TELEGRAM_CHAT_ID }}"
+          if [ -n "$TOKEN" ]; then
+            echo "TELEGRAM_BOT_TOKEN: $TOKEN"   # В логах будет отображаться как ***
+            echo "TELEGRAM_BOT_TOKEN length: ${#TOKEN}"
+          else
+            echo "TELEGRAM_BOT_TOKEN is NOT set"
+          fi
+          if [ -n "$CHAT" ]; then
+            echo "TELEGRAM_CHAT_ID: $CHAT"     # В логах будет отображаться как ***
+            echo "TELEGRAM_CHAT_ID length: ${#CHAT}"
+          else
+            echo "TELEGRAM_CHAT_ID is NOT set"
+          fi
+
+      - name: Validate Telegram bot and chat (no secrets exposed)
+        # Валидируем токен бота через getMe и доступность чата через getChat
+        if: always()
+        run: |
+          TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
+          CHAT="${{ secrets.TELEGRAM_CHAT_ID }}"
+          if [ -n "$TOKEN" ]; then
+            if curl -sS "https://api.telegram.org/bot${TOKEN}/getMe" | grep -q '"ok":true'; then
+              echo "Telegram bot token is valid (getMe ok:true)"
+            else
+              echo "Telegram bot token appears invalid or Telegram API unreachable"
+            fi
+          else
+            echo "Skip getMe: TELEGRAM_BOT_TOKEN is not set"
+          fi
+          if [ -n "$TOKEN" ] && [ -n "$CHAT" ]; then
+            if curl -sS "https://api.telegram.org/bot${TOKEN}/getChat?chat_id=${CHAT}" | grep -q '"ok":true'; then
+              echo "Chat ID is accessible to the bot (getChat ok:true)"
+            else
+              echo "Chat ID not accessible or invalid, or Telegram API unreachable"
+            fi
+          else
+            echo "Skip getChat: missing TOKEN or CHAT"
+          fi
 
       - name: Publish test report
         # Публикуем директорию allure-history в ветку gh-pages как статический сайт
