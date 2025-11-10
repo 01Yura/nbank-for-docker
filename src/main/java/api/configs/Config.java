@@ -28,13 +28,13 @@ public class Config {
 
 
     public static String getProperty(String key) {
-//        ПРИОРИТЕТ 1 - это системное свойство apiBaseUrl = ...
-//        используется для кубера и продакшн
+//        ПРИОРИТЕТ 1 - это системное свойство  ./mvnw clean test -DapiBaseUrl=http://some_domain:4111
+//        используется для кубера и продакшн окружения
         String systemValue = System.getProperty(key);
         if (systemValue != null) return systemValue;
 
 //        ПРИОРИТЕТ 2 - это переменная окружения apiBaseUrl - APIBASEURL
-//        используется для докера
+//        используется для докера или манифестов кубера
 //        admin.username -> ADMIN_USERNAME
         String envKey = key.toUpperCase().replace(".", "_");
         String envValue = System.getenv(envKey);
