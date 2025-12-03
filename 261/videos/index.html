@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Videos - Run #261</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .video-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .video-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .video-info {
+            padding: 15px;
+        }
+        .video-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-all;
+            font-size: 14px;
+        }
+        .video-size {
+            color: #666;
+            font-size: 12px;
+        }
+        .no-videos {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../" class="back-link">← Back to Test Allure Report</a>
+        <h1>🎥 Test Videos - Run #261</h1>
+        <div class="video-grid" id="videoGrid">
+            <!-- Videos will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        // Get list of video files
+        const videoFiles = ["19980aa644b17d92f074a49d59d67e35.mp4","4f0144548af82eee1488047ef08aea30.mp4","54e37061ebfe2dbeed9ef6e998e2208a.mp4","73a04a8269477bb323b7f6072756a21f.mp4","8ae2826d16eed4c232e70d6908e13b46.mp4","97d87473a24276cf3d48f853bc5b1229.mp4","a2826fdda6986a45a645549ddc636bef.mp4","bc8263c998fa6640aaecf7aa29105eba.mp4","e795b3ca1599a38803cfed3aaecfad7f.mp4","ef27f8e527607fbc11b1d45c53d57e11.mp4","fa666918f041de99f7fe23a329159920.mp4"];
+        
+        const videoGrid = document.getElementById('videoGrid');
+        
+        if (videoFiles.length === 0) {
+            videoGrid.innerHTML = '<div class="no-videos">No test videos available for this run.</div>';
+        } else {
+            videoFiles.forEach(file => {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                
+                videoItem.innerHTML = `
+                    <video controls preload="metadata">
+                        <source src="${file}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-info">
+                        <div class="video-name">${file}</div>
+                        <div class="video-size">Click to play</div>
+                    </div>
+                `;
+                
+                videoGrid.appendChild(videoItem);
+            });
+        }
+    </script>
+</body>
+</html>
