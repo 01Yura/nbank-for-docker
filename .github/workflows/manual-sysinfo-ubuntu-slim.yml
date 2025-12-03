@@ -8,25 +8,6 @@ jobs:
     runs-on: ubuntu-slim
 
     steps:
-      - name: Prepare minimal tools
-        shell: bash
-        run: |
-          set -euxo pipefail
-          apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            ca-certificates \
-            coreutils \
-            util-linux \
-            procps \
-            iproute2 \
-            net-tools \
-            pciutils \
-            usbutils \
-            gnupg \
-            wget \
-            curl \
-            sudo || true
-          rm -rf /var/lib/apt/lists/*
 
       - name: OS and Kernel
         shell: bash
