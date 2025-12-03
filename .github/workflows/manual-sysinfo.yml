@@ -1,0 +1,114 @@
+name: Manual System Info
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sysinfo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: OS and Kernel
+        shell: bash
+        run: |
+          echo "===== /etc/os-release ====="
+          cat /etc/os-release || true
+          echo
+          echo "===== Kernel (uname -a) ====="
+          uname -a
+
+      - name: CPU Info
+        shell: bash
+        run: |
+          echo "===== nproc ====="
+          nproc
+          echo
+          echo "===== lscpu ====="
+          lscpu || true
+
+      - name: Memory Info
+        shell: bash
+        run: |
+          echo "===== free -h ====="
+          free -h || true
+          echo
+          echo "===== /proc/meminfo (first 20 lines) ====="
+          head -n 20 /proc/meminfo || true
+
+      - name: Disk/FS Info
+        shell: bash
+        run: |
+          echo "===== df -h ====="
+          df -h
+          echo
+          echo "===== lsblk ====="
+          lsblk || true
+
+      - name: Network Info
+        shell: bash
+        run: |
+          echo "===== IP addresses ====="
+          ip -brief address || ip a || true
+          echo
+          echo "===== Routes ====="
+          ip route || true
+          echo
+          echo "===== Listening sockets ====="
+          ss -tuna || netstat -tuna || true
+
+      - name: Container/Virtualization Detection
+        shell: bash
+        run: |
+          echo "===== Docker presence ====="
+          if command -v docker >/dev/null 2>&1; then
+            docker --version || true
+            echo
+            echo "===== docker info ====="
+            docker info 2>/dev/null || true
+          else
+            echo "docker not available"
+          fi
+          echo
+          echo "===== Podman presence ====="
+          if command -v podman >/dev/null 2>&1; then
+            podman --version || true
+            podman info || true
+          else
+            echo "podman not available"
+          fi
+          echo
+          echo "===== /.dockerenv check ====="
+          if [ -f "/.dockerenv" ]; then
+            echo "/.dockerenv exists -> likely running inside a Docker container"
+          else
+            echo "/.dockerenv not found"
+          fi
+          echo
+          echo "===== /proc/1/cgroup ====="
+          cat /proc/1/cgroup || true
+          echo
+          echo "===== Control groups mounts (grep cgroup) ====="
+          mount | grep cgroup || true
+          echo
+          echo "===== systemd-detect-virt ====="
+          if command -v systemd-detect-virt >/dev/null 2>&1; then
+            systemd-detect-virt --vm --container || true
+          else
+            echo "systemd-detect-virt not present"
+          fi
+
+      - name: Environment Variables
+        shell: bash
+        run: |
+          echo "===== Environment (sorted) ====="
+          env | sort
+
+      - name: Useful Binaries Presence
+        shell: bash
+        run: |
+          echo "===== which docker/podman/containerd/crictl ====="
+          which docker || true
+          which podman || true
+          which containerd || true
+          which crictl || true
+
+
