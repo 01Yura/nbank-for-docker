@@ -12,8 +12,8 @@
 
 services:
   backend:
-    image: nobugsme/nbank:with_database
-    platform: linux/arm64
+    image: nobugsme/nbank:with_database_with_fix
+#    image: 01yura/nbank_with_database_fixed:latest
     ports:
       - "4111:4111"
     environment:
