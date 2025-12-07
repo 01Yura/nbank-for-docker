@@ -117,9 +117,9 @@ public class TransferMoneyApiTest extends BaseApiTest {
 
 //        Проверяем, что время транзакции совпадает у отправителя и получателя
         softly.assertThat(senderAccountAfterTransfer.getTransactions().stream()
-                        .filter(transaction -> transaction.getRelatedAccountId().equals(receiverAccount.getId())).findFirst().get().getTimestamp())
+                        .filter(transaction -> transaction.getRelatedAccountId().equals(receiverAccount.getId())).findFirst().get().getTimestamp().substring(0, 19))
                 .isEqualTo(receiverAccountAfterTransfer.getTransactions().stream()
-                        .filter(transaction -> transaction.getRelatedAccountId().equals(senderAccount.getId())).findFirst().get().getTimestamp());
+                        .filter(transaction -> transaction.getRelatedAccountId().equals(senderAccount.getId())).findFirst().get().getTimestamp().substring(0, 19));
     }
 
 

@@ -13,7 +13,7 @@
 services:
   backend:
     image: nobugsme/nbank:with_database_with_fix
-#    image: 01yura/nbank_with_database_fixed:latest
+#    image: 01yura/nbank_with_database_with_fixed:latest
     ports:
       - "4111:4111"
     environment:
