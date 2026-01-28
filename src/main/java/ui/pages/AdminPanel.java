@@ -5,6 +5,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import common.helper.StepLogger;
+import common.utils.RetryUtils;
 import lombok.Getter;
 import ui.elements.UserBage;
 
@@ -37,17 +38,14 @@ public class AdminPanel extends BasePage<AdminPanel> {
         });
     }
 
-    public UserBage findUserByUsername(String username) throws InterruptedException {
-        UserBage userBage = null;
-        int attempts = 0;
-        do {
-            Thread.sleep(1000);
-            userBage = getAllUsers().stream()
-                    .filter(element -> element.getUsername().equals(username))
-                    .findAny().orElse(null);
-            attempts++;
-        }
-        while (userBage == null && attempts <= 3);
-        return userBage;
+    public UserBage findUserByUsername(String username) {
+        return RetryUtils.retry(
+                () -> getAllUsers().stream()
+                        .filter(element -> element.getUsername().equals(username))
+                        .findAny().orElse(null),
+                userBage -> userBage != null,
+                3,
+                1000
+        );
     }
 }

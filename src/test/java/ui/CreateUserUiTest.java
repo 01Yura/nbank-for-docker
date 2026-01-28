@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateUserUiTest extends BaseUiTest {
 
-    @Test
+    @RepeatedTest(10)
     @AdminSession
         // С помощью JUnit Extension шаги по логину как админ выполняются под капотом, а не в тесте
     void adminCanCreateUserWithValidCredentials() throws InterruptedException {

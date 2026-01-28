@@ -18,11 +18,6 @@ public class EditProfilePage extends BasePage<EditProfilePage> {
     }
 
     public EditProfilePage changeName(String name) {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         enterNewNameInput.sendKeys(name);
         saveChangesButton.click();
         return this;

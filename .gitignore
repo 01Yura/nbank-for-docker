@@ -25,6 +25,7 @@ swagger-coverage-results.json
 allure-report
 .allure
 selenoid_reports
+infra/postgres_data
 
 
 ### Eclipse ###
