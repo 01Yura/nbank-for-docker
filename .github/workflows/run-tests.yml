@@ -105,11 +105,12 @@ jobs:
 
       - name: Load test report history
         # Загружаем историю отчётов Allure из ветки gh-pages, чтобы построить тренды
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: always()
         with:
           ref: gh-pages
           path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build test report
         # Генерируем Allure-отчёт, складываем историю и новые результаты
