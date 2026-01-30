@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Videos - Run #269</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .video-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .video-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .video-info {
+            padding: 15px;
+        }
+        .video-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-all;
+            font-size: 14px;
+        }
+        .video-size {
+            color: #666;
+            font-size: 12px;
+        }
+        .no-videos {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../" class="back-link">← Back to Test Allure Report</a>
+        <h1>🎥 Test Videos - Run #269</h1>
+        <div class="video-grid" id="videoGrid">
+            <!-- Videos will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        // Get list of video files
+        const videoFiles = ["025385303fc4967365afef6616e70116.mp4","0296fa225fd0c14c87b683745f5e7f09.mp4","0921a8fe27a41dc0ab0c7466c64abbd2.mp4","211504513632cf270a9f65dcccd78a83.mp4","2f34c563a380de0173dba269b147772a.mp4","2fe81b3943eff7b95ae1952cc3c0473d.mp4","59f931916716a49a41c016da67df3681.mp4","5b715fb1bf07b356ac948a2dee514931.mp4","66b7409e11a235d69932378d578c8d9d.mp4","691217bf98557363908a02bef1519ee6.mp4","73441385681fa1888750e42db9fdbf0e.mp4","7c65361530f1b97575078400c2b2a258.mp4","7fceed4b15dfc334dfd787e8d3e4df5a.mp4","89d9cf5d421ae4efc23f630b34266c6d.mp4","988329f00f1de63ae21da8df2aa913e6.mp4","9cb703a87c031e51005fef232721bfb0.mp4","aa15c6820c5fcc2541f57911df4b71a2.mp4","c1100c7804cab5479965dfa2841530ad.mp4","d1aa21cdfbc55d3cb1056f7abe5df70f.mp4","d37cc273ce1c39440a12ff4e156c9b60.mp4"];
+        
+        const videoGrid = document.getElementById('videoGrid');
+        
+        if (videoFiles.length === 0) {
+            videoGrid.innerHTML = '<div class="no-videos">No test videos available for this run.</div>';
+        } else {
+            videoFiles.forEach(file => {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                
+                videoItem.innerHTML = `
+                    <video controls preload="metadata">
+                        <source src="${file}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-info">
+                        <div class="video-name">${file}</div>
+                        <div class="video-size">Click to play</div>
+                    </div>
+                `;
+                
+                videoGrid.appendChild(videoItem);
+            });
+        }
+    </script>
+</body>
+</html>
