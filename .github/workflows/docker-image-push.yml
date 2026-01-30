@@ -57,6 +57,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Run Checkstyle
+        run: |
+          echo "Running Checkstyle..."
+          ./mvnw checkstyle:check -q
+          echo "Checkstyle completed successfully"
+
       - name: Get commit hash
         id: commit_hash
         run: echo "hash=${{ github.sha }}" >> $GITHUB_OUTPUT
@@ -83,16 +89,6 @@ jobs:
           echo "Building project..."
           ./mvnw clean compile -q
           echo "Build completed successfully"
-        env:
-          APIBASEURL: http://localhost:4111
-          UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:80
-          UIREMOTE: http://localhost:4444/wd/hub
-
-      - name: Run Checkstyle
-        run: |
-          echo "Running Checkstyle..."
-          ./mvnw checkstyle:check -q
-          echo "Checkstyle completed successfully"
         env:
           APIBASEURL: http://localhost:4111
           UIBASEURL: http://${{ steps.runner_ip.outputs.ip }}:80
@@ -165,7 +161,7 @@ jobs:
           🌿 *Branch:* \`${{ github.ref_name }}\`
           🔁 *Commit:* [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           👤 *Author:* \`${{ github.actor }}\`
-    
+
           🐳 *Docker Hub:* [${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}](https://hub.docker.com/r/${{ env.IMAGE_NAME }})
           🏷️ *Tags:*
           \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.commit_hash.outputs.hash }}\`
@@ -179,10 +175,10 @@ jobs:
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d parse_mode=Markdown \
             -d text="❌ *Docker pipeline failed!*
-  
+
           📦 *Repository:* [${{ github.repository }}](https://github.com/${{ github.repository }})
           🌿 *Branch:* `${{ github.ref_name }}`
           🔁 *Commit:* [`${{ github.sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           👤 *Author:* `${{ github.actor }}`
-          
+
           🚨 *Check the logs here:* [GitHub Actions Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
