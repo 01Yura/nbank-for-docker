@@ -23,25 +23,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check Docker Hub secrets
-        run: |
-          echo "=== Docker Hub Secrets Check ==="
-          echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}"
-          echo "DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}"
-          echo "REGISTRY: ${{ env.REGISTRY }}"
-          echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
-          if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
-            echo "❌ ERROR: DOCKERHUB_USERNAME is empty or not set"
-            exit 1
-          fi
-          if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
-            echo "❌ ERROR: DOCKERHUB_TOKEN is empty or not set"
-            exit 1
-          fi
-          echo "✅ Docker Hub secrets are configured"
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
